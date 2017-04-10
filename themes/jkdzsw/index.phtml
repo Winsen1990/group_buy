@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="{$config.meta_keywords|escape}">
+    <meta name="description" content="{$config.meta_description|escape}">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>{if isset($_P.page.title) and $_P.page.title neq ''}{$_P.page.title}-{/if}{$config.site_name|escape}</title>
+    <link href="{$template_path}/css/style.min.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <img class="jk-site-logo" src="{$config.logo}"/>
+            <h1 class="jk-site-theme">{$config.site_theme|escape}</h1>
+            <h2 class="jk-site-hot-line">招商热线: {$config.service_phone|escape}</h2>
+
+            <div class="jk-top-nav-bar">
+                {if isset($nav_list.top)}
+                {foreach $nav_list.top as $_nav}
+                <a href="{$_nav.url}" class="jk-top-nav-item">{$_nav.title|escape}</a>
+                {/foreach}
+                {/if}
+            </div>
+
+            <div class="jk-middle-nav-bar">
+                {if isset($nav_list.middle)}
+                {foreach $nav_list.middle as $_nav}
+                <a href="{$_nav.url}" class="jk-middle-nav-item {if $_nav@first}active{/if}">{$_nav.title|escape}</a>
+                {/foreach}
+                {/if}
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="jk-block-wrapper">
+            <div class="jk-slider">
+                <img src="controller/no_image.php?w=680&h=300"/>
+            </div>
+
+            <div class="jk-quick-menu">
+                <h2 class="jk-block-title">快捷功能</h2>
+                <div class="jk-quick-menu-list">
+                    <a href="#" class="jk-quick-menu-item">
+                        <img src="controller/no_image.php?w=90&h=90"/>
+                        <p>注册／登录</p>
+                    </a>
+                    <a href="#" class="jk-quick-menu-item">
+                        <img src="controller/no_image.php?w=90&h=90"/>
+                        <p>注册／登录</p>
+                    </a>
+                    <a href="#" class="jk-quick-menu-item">
+                        <img src="controller/no_image.php?w=90&h=90"/>
+                        <p>注册／登录</p>
+                    </a>
+                    <a href="#" class="jk-quick-menu-item">
+                        <img src="controller/no_image.php?w=90&h=90"/>
+                        <p>注册／登录</p>
+                    </a>
+                    <a href="#" class="jk-quick-menu-item">
+                        <img src="controller/no_image.php?w=90&h=90"/>
+                        <p>注册／登录</p>
+                    </a>
+                    <a href="#" class="jk-quick-menu-item">
+                        <img src="controller/no_image.php?w=90&h=90"/>
+                        <p>注册／登录</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="jk-block-wrapper">
+            <h2 class="jk-block-title">《健康就是这么简单》 <a href="#" class="jk-block-title-more">更多>></a> </h2>
+            <div class="jk-article-list-1">
+                {if $book_list}
+                {foreach $book_list as $section}
+                {if $section@first}
+                <div class="jk-article-cover">
+                    <img src="{$section.cover}"/>
+                    <div class="js-article-title">{$section.title|escape} <span class="jk-article-read">{$section.view_count}</span></div>
+                </div>
+                <div class="jk-article-list">
+                {/if}
+                    <dl {if $section@first}class="active"{/if}>
+                        <dt>{$section.title|escape}</dt>
+                        <dd>
+                            简述:
+                            <p>
+                                {$section.desc|escape}
+                                <a href="article.php?id={$section.id}">[ 阅读 ]</a>
+                            </p>
+                        </dd>
+                    </dl>
+                {if $section@last}
+                </div>
+                {/if}
+                {/foreach}
+                {/if}
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-content">
+            <img src="{$config.wechat_qrcode}" class="jk-footer-qrcode"/>
+            <img src="{$config.taobao_qrcode}" class="jk-footer-qrcode"/>
+
+            <div class="jk-footer-info">
+                <div class="jk-bottom-nav-bar">
+                    {if isset($nav_list.middle)}
+                    {foreach $nav_list.middle as $_nav}
+                    <a href="{$_nav.url}" class="jk-bottom-nav-item">{$_nav.title|escape}</a>
+                    {/foreach}
+                    {/if}
+                </div>
+                <div class="jk-footer-info-line">
+                    <h3 class="jk-service-phone">客服热线: {$config.service_phone|escape}</h3>
+                    <p>备案号: <a href="http://www.miibeian.gov.cn">{$config.case_number|escape}</a></p>
+                </div>
+                <div class="jk-footer-info-line">
+                    <p class="jk-company-address">公司地址: {$config.company_address|escape}</p>
+                    <p class="jk-copyright">Copyright &copy; {$config.copyright}. All Rights Reserved. 2015 ~ {date('Y')}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

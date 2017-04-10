@@ -1,0 +1,155 @@
+{extends file='common/template.phtml'}
+{block name='content'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">{$_P['page']['title']}</span>
+    </div>
+    <div class="panel-body">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="sysconf.php?act=list&group=config">系统参数</a></li>
+            <li><a href="sysconf.php?act=add&group={$group}"><i class="glyphicon glyphicon-plus"></i>新增参数</a></li>
+        </ul>
+        <table class="table table-hover table-responsive">
+            <thead>
+                <tr>
+                    <th width="10%">参数</th>
+                    <th width="20%"></th>
+                    <th width="30%">说明</th>
+                    <th width="20%">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            {if $config_list}
+            {foreach $config_list as $config}
+            <tr>
+                <td>{$config.title}</td>
+                <td>
+                    {if $config.type eq 'text'}
+                    {$config.value}
+                    {elseif $config.type eq 'image'}
+                    {if $config.value neq ''}
+                    <img src="{$config.value}" data-id="{$config.key}" id="{$config.key}-show" class="img-thumbnail image-config" width="100"/>
+                    {else}
+                    <img src="no_image.php?w=100&h=100" data-id="{$config.key}" id="{$config.key}-show" class="img-thumbnail image-config" width="100"/>
+                    {/if}
+                    <input type="hidden" name="{$config.key}" id="{$config.key}" value="{$config.value}"/>
+                    {/if}
+                </td>
+                <td>{$config.remark}</td>
+                <td>
+                    {if $config.type eq 'text'}
+                    <button type="button" class="btn btn-default edit-config" data-id="{$config.key}" data-value="{$config.value}" title="编辑">
+                        <i class="glyphicon glyphicon-pencil"></i>
+                    </button>
+                    {/if}
+                </td>
+            </tr>
+            {/foreach}
+            {else}
+            <tr>
+                <td colspan="4" class="text-center">
+                    没有任何参数
+                </td>
+            </tr>
+            {/if}
+            </tbody>
+        </table>
+    </div>
+    <div class="panel-footer text-right">
+        {$_P['page']['copyright']}
+    </div>
+</div>
+<link rel="stylesheet" href="../plugins/common/kindeditor/themes/default/default.css" />
+<script src="../plugins/common/kindeditor/kindeditor.js"></script>
+<script src="../plugins/common/kindeditor/lang/zh_CN.js"></script>
+<link rel="stylesheet" href="../plugins/common/kindeditor/plugins/code/prettify.css" />
+<script charset="utf-8" src="../plugins/common/kindeditor/plugins/code/prettify.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('.edit-config').bind('click', edit_config);
+    });
+
+
+    KindEditor.ready(function(K) {
+        var editor = K.editor({
+            allowFileManager: true
+        });
+
+        K('.image-config').click(function () {
+            var target_id = $(this).attr('data-id');
+            console.info(target_id);
+            editor.loadPlugin('insertimage', function () {
+                editor.plugin.imageDialog({
+                    imageUrl: K('#'+target_id).val(),
+                    clickFn: function (url) {
+                        var data = {
+                            key: target_id,
+                            value: url,
+                            opera: 'edit'
+                        };
+
+                        var url = 'sysconf.php';
+
+                        $.post(url, data, edit_config_success, 'json');
+                        editor.hideDialog();
+                    }
+                });
+            });
+        });
+    });
+
+    function edit_config() {
+        var key = $(this).attr('data-id');
+        var value = $(this).attr('data-value');
+        var config_name = $(this).parent().parent().find('td:first-child').text();
+        var edit_form = '<div class="panel-body">' +
+                        '<form class="form-horizontal" method="post" action="sysconf.php?act=add" onsubmit="return false;">' +
+                        '<div class="form-group">' +
+                        '<label class="control-label col-md-4">'+ config_name +'</label>' +
+                        '<div class="col-md-8">' +
+                        '<input type="text" class="form-control" name="value" id="value" value="'+ value +'" placeholder="请填写参数值"/>' +
+                        '<input type="hidden" name="key" value="'+ key + '" id="key"/>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="form-group">' +
+                        '<label class="control-label col-md-3">&nbsp;</label>' +
+                        '<div class="col-md-9">' +
+                        '<button class="btn btn-primary" name="submit" id="submit">修改</button>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>';
+        layer.open({
+            type: 1,
+            content: edit_form
+        });
+
+        $('#submit').click(function () {
+            var data = {
+                key: $('#key').val(),
+                value: $('#value').val(),
+                opera: 'edit'
+            };
+
+            var url = 'sysconf.php';
+
+            $.post(url, data, edit_config_success, 'json');
+        });
+    }
+
+    function edit_config_success(response) {
+        if(response.error == 0) {
+            layer.open({
+                shade: [0.5, '#333333'],
+                icon: 1,
+                closeBtn: 0,
+                content: response.message,
+                yes: function() {
+                    window.location.reload();
+                }
+            });
+        } else {
+            layer.alert(response.message);
+        }
+    }
+</script>
+{/block}

@@ -1,0 +1,499 @@
+@charset "utf-8";
+/* `XHTML, HTML4, HTML5 Reset
+----------------------------------------------------------------------------------------------------*/
+
+a,
+abbr,
+acronym,
+address,
+applet,
+article,
+aside,
+audio,
+b,
+big,
+blockquote,
+body,
+canvas,
+caption,
+center,
+cite,
+code,
+dd,
+del,
+details,
+dfn,
+dialog,
+div,
+dl,
+dt,
+em,
+embed,
+fieldset,
+figcaption,
+figure,
+font,
+footer,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+header,
+hr,
+html,
+i,
+iframe,
+img,
+ins,
+kbd,
+label,
+legend,
+li,
+main,
+mark,
+menu,
+meter,
+nav,
+object,
+ol,
+output,
+p,
+pre,
+progress,
+q,
+rp,
+rt,
+ruby,
+s,
+samp,
+section,
+small,
+span,
+strike,
+strong,
+sub,
+summary,
+sup,
+table,
+tbody,
+td,
+tfoot,
+th,
+thead,
+time,
+tr,
+tt,
+u,
+ul,
+var,
+video {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+main,
+menu,
+nav,
+section {
+/*
+  Override the default (display: inline) for
+  browsers that do not recognize HTML5 tags.
+
+  IE8 (and lower) requires a shiv:
+  http://ejohn.org/blog/html5-shiv
+*/
+  display: block;
+}
+
+b,
+strong {
+/*
+  Makes browsers agree.
+  IE + Opera = font-weight: bold.
+  Gecko + WebKit = font-weight: bolder.
+*/
+  font-weight: bold;
+}
+
+img {
+  color: transparent;
+  font-size: 0;
+  vertical-align: middle;
+/*
+  For IE.
+  http://css-tricks.com/ie-fix-bicubic-scaling-for-images
+*/
+  -ms-interpolation-mode: bicubic;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+li {
+/*
+  For IE6 + IE7:
+
+  "display: list-item" keeps bullets from
+  disappearing if hasLayout is triggered.
+*/
+  display: list-item;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+th,
+td,
+caption {
+  font-weight: normal;
+  vertical-align: top;
+  text-align: left;
+}
+
+q {
+  quotes: none;
+}
+
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+
+sub,
+sup,
+small {
+  font-size: 75%;
+}
+
+sub,
+sup {
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+svg {
+/*
+  For IE9. Without, occasionally draws shapes
+  outside the boundaries of <svg> rectangle.
+*/
+  overflow: hidden;
+}
+
+a {
+  text-decoration: none;
+}
+
+@f_sm: 12px;
+@f_m: 14px;
+@f_l: 18px;
+@f_xl: 22px;
+@f_xxl: 36px;
+
+@content_width: 1000px;
+
+@ma_10: 10px;
+
+@color_green: #5bba59;
+@color_black: #333333;
+@color_light_black: #303136;
+@color_dark_gray: #555555;
+@color_white: #ffffff;
+@color_white2: #f7f7f7;
+@color_gray: #efefef;
+
+html,
+body {
+  height: 100%;
+  font-size: @f_m;
+  background: @color_white2;
+  font-family: 'Microsoft YaHei';
+}
+/** header **/
+.header {
+  overflow: hidden;
+  border-bottom: 1px solid @color_gray;
+  min-width: @content_width;
+  background: @color_white;
+
+  .header-content {
+    display: block;
+    width: @content_width;
+    margin: 0 auto;
+    position: relative;
+    padding: 5px 0 0;
+
+    .jk-site-logo {
+      display: inline-block;
+      height: 108px;
+    }
+
+    .jk-site-theme {
+      display: inline-block;
+      font-size: @f_xxl;
+      font-weight: normal;
+      color: @color_green;
+      margin-left: 15px;
+      vertical-align: top;
+      line-height: 70px;
+    }
+
+    .jk-site-hot-line {
+      color: @color_black;
+      display: inline-block;
+      vertical-align: top;
+      font-size: 24px;
+      font-weight: normal;
+      line-height: 56px;
+      margin-left: 32px;
+    }
+
+    .jk-top-nav-bar {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      border-radius: 0 0 8px 8px;
+      background: @color_green;
+      border: 5px solid @color_green;
+
+      .jk-top-nav-item {
+        color: @color_white;
+        display: block;
+        float: left;
+        font-size: @f_sm;
+        padding: 3px 14px;
+        text-align: center;
+        border-right: 1px solid @color_white;
+
+        &:last-child {
+          border-right: 0;
+        }
+      }
+    }
+
+    .jk-middle-nav-bar {
+      display: block;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+
+      .jk-middle-nav-item {
+        color: @color_dark_gray;
+        font-size: @f_l;
+        line-height: 50px;
+        padding: 10px 15px 10px;
+
+        &.active {
+          color: @color_green;
+          border-bottom: 4px solid @color_green;
+        }
+      }
+    }
+  }
+}
+
+/** content **/
+.content {
+  width: @content_width;
+  margin: @ma_10 auto;
+  overflow: hidden;
+
+  .jk-block-wrapper {
+    overflow: hidden;
+    margin-bottom: 10px;
+
+    .jk-slider {
+      float: left;
+      width: 680px;
+      height: 300px;
+      margin-right: 20px;
+    }
+
+    .jk-quick-menu {
+      float: left;
+      width: 298px;
+      border: 1px solid #cecece;
+
+      .jk-quick-menu-list {
+        padding: 10px;
+        overflow: hidden;
+
+        .jk-quick-menu-item {
+          float: left;
+          width: (100%-6%)/3;
+          margin: 0 3% 10px 0;
+          text-align: center;
+          font-size: 14px;
+          line-height: 26px;
+
+          &:nth-child(3n) {
+            margin-right: 0;
+          }
+
+          &>img {
+            width: 100%;
+          }
+
+          &>p {
+            text-align: center;
+          }
+        }
+      }
+    }
+
+    .jk-block-title {
+      font-size: @f_l;
+      line-height: @f_l*2;
+      text-indent: 30px;
+
+      .jk-block-title-more {
+        float: right;
+      }
+    }
+  }
+}
+
+.footer {
+  background: @color_light_black;
+
+  .footer-content {
+    width: @content_width;
+    margin: 0 auto;
+    overflow: hidden;
+    padding-bottom: 40px;
+
+    .jk-footer-qrcode {
+      float: left;
+      width: 150px;
+      margin: 30px 10px 0 0;
+    }
+
+    .jk-footer-info {
+      float: left;
+      width: 660px;
+      margin: 30px 0 0 20px;
+      position: relative;
+      color: @color_white;
+
+      a {
+        color: @color_white;
+      }
+
+      .jk-bottom-nav-bar {
+        text-align: right;
+        line-height: 40px;
+
+        .jk-bottom-nav-item {
+          border-right: 1px solid #fff;
+          padding: 0 10px;
+
+          &:last-child {
+            border-right: 0;
+          }
+        }
+      }
+
+      .jk-footer-info-line {
+        text-align: left;
+        overflow: hidden;
+        line-height: 40px;
+
+        p {
+          float: right;
+        }
+
+        .jk-company-address, .jk-copyright {
+          float: left;
+        }
+      }
+
+      .jk-service-phone {
+        float: left;
+        font-size: @f_xl;
+      }
+    }
+  }
+}
+
+.jk-article-list-1 {
+  overflow: hidden;
+  background: #f1f1f1;
+  border-radius: 0 0 8px 8px;
+
+  .jk-article-cover {
+    float: left;
+    width: 480px;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+
+    .js-article-title {
+      line-height: 36px;
+      background: #f5f5f5;
+      padding: 0 15px;
+      overflow: hidden;
+
+      .jk-article-read {
+        float: right;
+      }
+    }
+  }
+
+  .jk-article-list {
+    float: left;
+    width: 500px;
+    line-height: 20px;
+    padding: 10px;
+
+    dl {
+      line-height: 24px;
+      margin-top: 5px;
+      cursor: pointer;
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+      dd {
+        padding: 5px 8px;
+        display: none;
+        background: #fff;
+        border-radius: 5px;
+      }
+
+      &.active {
+        dd {
+          display: block;
+        }
+      }
+    }
+  }
+}

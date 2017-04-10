@@ -1,0 +1,150 @@
+{extends file='common/template.phtml'}
+{block name='content'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">{$_P['page']['title']}</span>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal" method="post" action="nav.php?act=edit" onsubmit="return edit_nav()">
+            <div class="form-group">
+                <label class="control-label col-md-2">导航标题</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="title" id="title" placeholder="请填写导航标题" value="{$nav.title}"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">父级导航栏</label>
+                <div class="col-md-4">
+                    <select class="form-control" name="parent_id" id="parent_id">
+                        <option value="0">顶级导航栏</option>
+                        {if $nav_list}
+                        {foreach $nav_list as $_nav}
+                        <option value="{$_nav.id}" {if $nav.parent_id eq $_nav.id}selected="selected"{/if}>{$_nav.title}</option>
+                        {/foreach}
+                        {/if}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">位置</label>
+                <div class="col-md-4">
+                    <select class="form-control" name="position" id="position">
+                        <option value="middle" {if $position eq 'middle'}selected="selected"{/if}>主导航栏</option>
+                        <option value="top" {if $position eq 'top'}selected="selected"{/if}>辅助导航</option>
+                        <option value="bottom" {if $position eq 'bottom'}selected="selected"{/if}>底部导航</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">URL</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" name="url" id="url" placeholder="请填写URL" value="{$nav.url}"/>
+                    <div class="help-block">请填写完整的访问路径，包含http://或https://</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">排序</label>
+                <div class="col-md-4">
+                    <input type="number" class="form-control" name="sort" id="sort" placeholder="请填写排序" value="{$nav.sort}"/>
+                    <div class="help-block">请填写正整数，数字越小，排序越前</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">&nbsp;</label>
+                <div class="col-md-10">
+                    <button class="btn btn-primary" name="submit" id="submit">编辑</button>
+                    <a class="btn btn-default" href="nav.php?act=list&position={$position}">返回</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="panel-footer text-right">
+        {$_P['page']['copyright']}
+    </div>
+</div>
+<script type="text/javascript">
+    function edit_nav() {
+        var data = {
+            title: $.trim($('#title').val()),
+            parent_id: parseInt($('#parent_id').val()),
+            position: $.trim($('#position').val()),
+            url: $.trim($('#url').val()),
+            sort: parseInt($('#sort').val()),
+            opera: 'edit',
+            id: {$nav.id}
+        };
+
+        var error_msg = '';
+
+        if(data.title == '') {
+            error_msg += '-请填写导航栏标题<br/>';
+            $('#title').parent().addClass('has-error');
+        } else {
+            $('#title').parent().removeClass('has-error');
+        }
+
+        if(isNaN(data.parent_id) || data.parent_id < 0) {
+            error_msg += '-请选择父级导航栏<br/>';
+            $('#parent_id').parent().addClass('has-error');
+        } else {
+            $('#parent_id').parent().removeClass('has-error');
+        }
+
+        if(data.position == '') {
+            error_msg += '-请选择导航栏位置<br/>';
+            $('#position').parent().addClass('has-error');
+        } else {
+            $('#position').parent().removeClass('has-error');
+        }
+
+        if(data.url == '') {
+            error_msg += '-请填写URL<br/>';
+            $('#url').parent().addClass('has-error');
+        } else if(data.url.search('http://') != 0 && data.url.search('https://') != 0) {
+            error_msg += '-请填写完整的URL，以http://或https://开头<br/>';
+            $('#url').parent().addClass('has-error');
+        } else {
+            $('#url').parent().removeClass('has-error');
+        }
+
+        if(isNaN(data.sort) || data.sort < 0) {
+            error_msg += '-请填写排序<br/>';
+            $('#sort').parent().addClass('has-error');
+        } else {
+            $('#sort').parent().removeClass('has-error');
+        }
+
+        if(error_msg == '') {
+            var url = 'nav.php';
+
+            $.post(url, data, edit_nav_success, 'json');
+        } else {
+            layer.alert(error_msg);
+        }
+
+        return false;
+    }
+
+    function edit_nav_success(response) {
+        if(response.error == 0) {
+            layer.open({
+                shade: [0.5, '#333333'],
+                icon: 1,
+                closeBtn: 0,
+                content: response.message,
+                btn: ['查看列表'],
+                yes: function() {
+                    window.location.href = 'nav.php?act=list&position={$position}';
+                }
+            });
+        } else {
+            layer.alert(response.message);
+        }
+    }
+</script>
+{/block}

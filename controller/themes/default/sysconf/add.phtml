@@ -1,0 +1,127 @@
+{extends file='common/template.phtml'}
+{block name='content'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">{$_P['page']['title']}</span>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal" method="post" action="sysconf.php?act=add" onsubmit="return add_sysconf()">
+            <div class="form-group">
+                <label class="control-label col-md-2">参数名称</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="title" id="title" placeholder="请填写参数名称"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">参数标识</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="key" id="key" placeholder="请填写参数标识"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">参数类型</label>
+                <div class="col-md-4">
+                    <select class="form-control" name="type" id="type">
+                        <option value="text">文本</option>
+                        <option value="image">图片</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">参数组</label>
+                <div class="col-md-4">
+                    <select class="form-control" name="group" id="group">
+                        <option value="config" {if $group eq 'config'}selected="selected"{/if}>系统参数</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">&nbsp;</label>
+                <div class="col-md-10">
+                    <button class="btn btn-primary" name="submit" id="submit">新增</button>
+                    <a class="btn btn-default" href="sysconf.php?act=list&group={$group}">返回</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="panel-footer text-right">
+        {$_P['page']['copyright']}
+    </div>
+</div>
+<script type="text/javascript">
+    function add_sysconf() {
+        var data = {
+            title: $.trim($('#title').val()),
+            key: $.trim($('#key').val()),
+            type: $.trim($('#type').val()),
+            group: $.trim($('#group').val()),
+            opera: 'add'
+        };
+
+        var error_msg = '';
+
+        if(data.title == '') {
+            error_msg += '-请填写参数名称<br/>';
+            $('#title').parent().addClass('has-error');
+        } else {
+            $('#title').parent().removeClass('has-error');
+        }
+
+        if(data.key == '') {
+            error_msg += '-请填写参数标识<br/>';
+            $('#key').parent().addClass('has-error');
+        } else {
+            $('#key').parent().removeClass('has-error');
+        }
+
+        if(data.type == '') {
+            error_msg += '-请选择参数类型<br/>';
+            $('#type').parent().addClass('has-error');
+        } else {
+            $('#type').parent().removeClass('has-error');
+        }
+
+        if(data.group == '') {
+            error_msg += '-请填写参数组<br/>';
+            $('#group').parent().addClass('has-error');
+        } else {
+            $('#group').parent().removeClass('has-error');
+        }
+
+        if(error_msg == '') {
+            var url = 'sysconf.php';
+
+            $.post(url, data, add_sysconf_success, 'json');
+        } else {
+            layer.alert(error_msg);
+        }
+
+        return false;
+    }
+
+    function add_sysconf_success(response) {
+        if(response.error == 0) {
+            layer.open({
+                shade: [0.5, '#333333'],
+                icon: 1,
+                closeBtn: 0,
+                content: response.message,
+                btn: ['继续添加', '设置参数'],
+                yes: function(index, layero) {
+                    layer.close(index);
+                    window.location.reload();
+                },
+                cancel: function() {
+                    window.location.href = 'sysconf.php?act=list&group={$group}';
+                }
+            });
+        } else {
+            layer.alert(response.message);
+        }
+    }
+</script>
+{/block}

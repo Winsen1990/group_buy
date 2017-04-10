@@ -1,0 +1,48 @@
+<meta charset="UTF-8">
+{if $total_page gt 1}
+<nav aria-label="Page navigation" class="navbar-right">
+    <ul class="pagination  pagination-sm">
+        {if $page eq 1}
+        <li class="disabled">
+            <a href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {else}
+        <li>
+            <a href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {/if}
+
+        {assign var=max_page value=$total_page}
+        {assign var=begin_page value=1}
+
+        {if $total_page gt 5}
+        {/if}
+
+        {for $i=$begin_page to $max_page}
+            {if $i eq $page}
+                <li class="active"><a href="#">{$i}</a></li>
+            {else}
+                <li><a href="#">{$i}</a></li>
+            {/if}
+        {/for}
+
+        {if $page eq $total_page}
+        <li class="disabled">
+            <a href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        {else}
+        <li>
+            <a href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        {/if}
+    </ul>
+</nav>
+{/if}

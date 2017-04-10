@@ -1,0 +1,32 @@
+{extends file='common/template.phtml'}
+{block name='breadcrumb'}{/block}
+{block name='content'}
+<script type="text/javascript">
+    $(function(){
+        layer.open({
+            shade: true,
+            icon: {$icon},
+            closeBtn: 0,
+            content: '{$message}',
+            btn: [{foreach $buttons as $item}'{$item.btn}'{if !$item@last},{/if}{/foreach}],
+            {foreach $buttons as $index=>$item}
+            {if $item@first}
+                yes:
+            {/if}
+            {if $index eq 1}
+                cancel:
+            {/if}
+            {if $index gt 1}
+                btn{$index+1}:
+            {/if}
+                function(index, layero) {
+                    window.location.href = '{$item.url}';
+                }
+            {if !$item@last}
+            ,
+            {/if}
+        {/foreach}
+        });
+    });
+</script>
+{/block}

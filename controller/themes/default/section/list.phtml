@@ -1,0 +1,89 @@
+{extends file='common/template.phtml'}
+{block name='content'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">{$_P['page']['title']}</span>
+    </div>
+    <div class="panel-body">
+        <table class="table table-hover table-responsive">
+            <thead>
+                <tr>
+                    <th>栏目名称</th>
+                    <th>链接</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            {if isset($section_list) and count($section_list)}
+            {foreach $section_list as $section}
+            <tr>
+                <td>{$section.name}</td>
+                <td>http://{$smarty.server.SERVER_NAME}/section.php?id={$section.id}</td>
+                <td>
+                    <a href="../section.php?id={$section.id}" class="btn btn-default" title="预览">
+                        <i class="glyphicon glyphicon-eye-open"></i>
+                    </a>
+
+                    <a href="section.php?act=edit&id={$section.id}" class="btn btn-default" title="编辑">
+                        <i class="glyphicon glyphicon-pencil"></i>
+                    </a>
+
+                    <a href="javascript:void(0);" data-id="{$section.id}" class="btn btn-default delete" title="删除">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {/foreach}
+            {else}
+            <tr>
+                <td colspan="3" class="text-center">
+                    暂无栏目，请先 <a href="section.php?act=add">添加</a>
+                </td>
+            </tr>
+            {/if}
+            </tbody>
+        </table>
+    </div>
+    <div class="panel-footer text-right">
+        {$_P['page']['copyright']}
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        var delete_btns = $('.delete');
+
+        delete_btns.each(function(i, e) {
+            $(this).bind('click', delete_section);
+        });
+    });
+
+    function delete_section() {
+        var data = {
+            id: $(this).attr('data-id'),
+            opera: 'delete'
+        };
+
+        var url = 'section.php';
+
+        layer.confirm('您确定要删除该栏目?', { icon: 3 }, function() {
+            $.post(url, data, delete_section_success, 'json');
+        });
+    }
+
+    function delete_section_success(response) {
+        if(response.error == 0) {
+            layer.open({
+                shade: [0.5, '#333333'],
+                icon: 1,
+                closeBtn: 0,
+                content: response.message,
+                yes: function() {
+                    window.location.reload();
+                }
+            });
+        } else {
+            layer.alert(response.message);
+        }
+    }
+</script>
+{/block}

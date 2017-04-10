@@ -1,0 +1,117 @@
+{extends file='common/template.phtml'}
+{block name='content'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">{$_P['page']['title']}</span>
+    </div>
+    <div class="panel-body">
+        <ul class="nav nav-tabs">
+            <li {if $position eq 'middle'}class="active"{/if}><a href="nav.php?act=list&position=middle">主导航栏（中间）</a></li>
+            <li {if $position eq 'top'}class="active"{/if}><a href="nav.php?act=list&position=top">辅助导航（顶部）</a></li>
+            <li {if $position eq 'bottom'}class="active"{/if}><a href="nav.php?act=list&position=bottom">底部导航（底部）</a></li>
+            <li><a href="nav.php?act=add&position={$position}"><i class="glyphicon glyphicon-plus"></i>新增导航栏</a></li>
+        </ul>
+        <table class="table table-hover table-responsive">
+            <thead>
+                <tr>
+                    <th width="40%">导航栏名称</th>
+                    <th width="30%">排序</th>
+                    <th width="30%">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            {if isset($nav_list[$position]) and count($nav_list[$position])}
+            {foreach $nav_list[$position][0] as $nav}
+            <tr>
+                <td>{$nav.title}</td>
+                <td>{$nav.sort}</td>
+                <td>
+                    <a href="{$nav.url}" class="btn btn-default" title="预览">
+                        <i class="glyphicon glyphicon-eye-open"></i>
+                    </a>
+
+                    <a href="nav.php?act=edit&id={$nav.id}" class="btn btn-default" title="编辑">
+                        <i class="glyphicon glyphicon-pencil"></i>
+                    </a>
+
+                    <a href="javascript:void(0);" data-id="{$nav.id}" class="btn btn-default delete" title="删除">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {* 二级导航 *}
+            {if isset($nav_list[$position][$nav.id])}
+                {foreach $nav_list[$position][$nav.id] as $sub_nav}
+                <tr>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;|--{$sub_nav.title}</td>
+                    <td>{$sub_nav.sort}</td>
+                    <td>
+                        <a href="{$sub_nav.url}" class="btn btn-default" title="预览">
+                            <i class="glyphicon glyphicon-eye-open"></i>
+                        </a>
+
+                        <a href="nav.php?act=edit&id={$sub_nav.id}" class="btn btn-default" title="编辑"/>
+                            <i class="glyphicon glyphicon-pencil"></i>
+                        </a>
+
+                        <a href="javascript:void(0);" data-id="{$sub_nav.id}" class="btn btn-default delete" title="删除">
+                            <i class="glyphicon glyphicon-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {/foreach}
+            {/if}
+            {/foreach}
+            {else}
+            <tr>
+                <td colspan="2" class="text-center">
+                    暂无导航栏，请先 <a href="nav.php?act=add&position={$position}">添加</a>
+                </td>
+            </tr>
+            {/if}
+            </tbody>
+        </table>
+    </div>
+    <div class="panel-footer text-right">
+        {$_P['page']['copyright']}
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        var delete_btns = $('.delete');
+
+        delete_btns.each(function(i, e) {
+            $(this).bind('click', delete_nav);
+        });
+    });
+
+    function delete_nav() {
+        var data = {
+            id: $(this).attr('data-id'),
+            opera: 'delete'
+        };
+
+        var url = 'nav.php';
+
+        layer.confirm('您确定要删除该导航栏?', { icon: 3 }, function() {
+            $.post(url, data, delete_nav_success, 'json');
+        });
+    }
+
+    function delete_nav_success(response) {
+        if(response.error == 0) {
+            layer.open({
+                shade: [0.5, '#333333'],
+                icon: 1,
+                closeBtn: 0,
+                content: response.message,
+                yes: function() {
+                    window.location.reload();
+                }
+            });
+        } else {
+            layer.alert(response.message);
+        }
+    }
+</script>
+{/block}

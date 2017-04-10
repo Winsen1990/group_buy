@@ -1,0 +1,14 @@
+<ol class="breadcrumb">
+    <li>
+        <a href="index.php">
+            <span class="glyphicon glyphicon-home"></span>
+        </a>
+    </li>
+    {foreach $breadcrumb as $location}
+        {if $location@last}
+            <li class="active">{$location.name}</li>
+        {else}
+            <li><a href="{$location.url}">{$location.name}</a></li>
+        {/if}
+    {/foreach}
+</ol>

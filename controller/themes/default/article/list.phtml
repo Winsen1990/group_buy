@@ -1,0 +1,105 @@
+{extends file='common/template.phtml'}
+{block name='content'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">{$_P['page']['title']}</span>
+    </div>
+    <div class="panel-body">
+        <table class="table table-hover table-responsive">
+            <thead>
+                <tr>
+                    <th>资讯标题</th>
+                    <th>所属栏目</th>
+                    <th>作者</th>
+                    <th>创建时间</th>
+                    <th>修改时间</th>
+                    <th>状态</th>
+                    <th>链接</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            {if isset($article_list) and count($article_list)}
+            {foreach $article_list as $article}
+            <tr>
+                <td>{$article.title}</td>
+                <td>{$article.section_name}</td>
+                <td>{$article.author}</td>
+                <td>{date('Y-m-d H:i:s', $article.add_time)}</td>
+                <td>{$article.last_modify}</td>
+                <td>
+                    {if $article.status eq 1}
+                    <span class="label label-success">已发布</span>
+                    {else}
+                    <span class="label label-default">存草稿</span>
+                    {/if}
+                </td>
+                <td>http://{$smarty.server.SERVER_NAME}/article.php?id={$article.id}</td>
+                <td>
+                    <a href="../article.php?id={$article.id}" class="btn btn-default" title="预览">
+                        <i class="glyphicon glyphicon-eye-open"></i>
+                    </a>
+
+                    <a href="article.php?act=edit&id={$article.id}" class="btn btn-default" title="编辑">
+                        <i class="glyphicon glyphicon-pencil"></i>
+                    </a>
+
+                    <a href="javascript:void(0);" data-id="{$article.id}" class="btn btn-default delete" title="删除">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {/foreach}
+            {else}
+            <tr>
+                <td colspan="8" class="text-center">
+                    暂无资讯，请先 <a href="article.php?act=add">添加</a>
+                </td>
+            </tr>
+            {/if}
+            </tbody>
+        </table>
+    </div>
+    <div class="panel-footer text-right">
+        {$_P['page']['copyright']}
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        var delete_btns = $('.delete');
+
+        delete_btns.each(function(i, e) {
+            $(this).bind('click', delete_article);
+        });
+    });
+
+    function delete_article() {
+        var data = {
+            id: $(this).attr('data-id'),
+            opera: 'delete'
+        };
+
+        var url = 'article.php';
+
+        layer.confirm('您确定要删除该资讯?', { icon: 3 }, function() {
+            $.post(url, data, delete_article_success, 'json');
+        });
+    }
+
+    function delete_article_success(response) {
+        if(response.error == 0) {
+            layer.open({
+                shade: [0.5, '#333333'],
+                icon: 1,
+                closeBtn: 0,
+                content: response.message,
+                yes: function() {
+                    window.location.reload();
+                }
+            });
+        } else {
+            layer.alert(response.message);
+        }
+    }
+</script>
+{/block}
