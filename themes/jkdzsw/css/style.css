@@ -197,7 +197,7 @@ body {
   height: 100%;
   font-size: 14px;
   background: #f7f7f7;
-  font-family: 'Microsoft YaHei';
+  font-family: 'PingFang SC', 'Microsoft YaHei';
 }
 /** header **/
 .header {
@@ -264,15 +264,71 @@ body {
 }
 .header .header-content .jk-middle-nav-bar .jk-middle-nav-item {
   color: #555555;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 50px;
-  padding: 10px 15px 10px;
+  padding: 10px 15px 11px;
 }
 .header .header-content .jk-middle-nav-bar .jk-middle-nav-item.active {
   color: #5bba59;
   border-bottom: 4px solid #5bba59;
 }
 /** content **/
+.jk-slider-wrapper {
+  width: 1000px;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+}
+.jk-slider-wrapper .jk-slider {
+  width: 1000px;
+  height: 300px;
+}
+.jk-slider-wrapper .jk-quick-menu {
+  position: absolute;
+  width: 300px;
+  background-color: #ffffff;
+  left: 685px;
+  top: 10px;
+}
+.jk-slider-wrapper .jk-quick-menu .jk-quick-menu-list {
+  padding: 10px;
+  overflow: hidden;
+}
+.jk-slider-wrapper .jk-quick-menu .jk-quick-menu-list .jk-quick-menu-item {
+  float: left;
+  color: #333333;
+  width: 31.33333333%;
+  margin: 0 3% 10px 0;
+  text-align: center;
+  line-height: 40px;
+}
+.jk-slider-wrapper .jk-quick-menu .jk-quick-menu-list .jk-quick-menu-item:nth-child(3n) {
+  margin-right: 0;
+}
+.jk-slider-wrapper .jk-quick-menu .jk-quick-menu-list .jk-quick-menu-item > img {
+  height: 44px;
+  padding: 5px 0;
+}
+.jk-slider-wrapper .jk-quick-menu .jk-quick-menu-list .jk-quick-menu-item > p {
+  text-align: center;
+}
+.jk-slider-wrapper .jk-quick-menu .jk-block-title {
+  line-height: 36px;
+  padding: 6px 0;
+  font-weight: normal;
+  border-bottom: 1px solid #ddd;
+  margin: 0 20px;
+}
+.jk-slider-wrapper .jk-quick-menu .jk-block-title i {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: #5bba59;
+  margin-right: 10px;
+}
+.jk-slider-wrapper .jk-quick-menu .jk-block-title .jk-block-title-more {
+  float: right;
+}
 .content {
   width: 1000px;
   margin: 10px auto;
@@ -282,45 +338,32 @@ body {
   overflow: hidden;
   margin-bottom: 10px;
 }
-.content .jk-block-wrapper .jk-slider {
-  float: left;
-  width: 680px;
-  height: 300px;
-  margin-right: 20px;
-}
-.content .jk-block-wrapper .jk-quick-menu {
-  float: left;
-  width: 298px;
-  border: 1px solid #cecece;
-}
-.content .jk-block-wrapper .jk-quick-menu .jk-quick-menu-list {
-  padding: 10px;
-  overflow: hidden;
-}
-.content .jk-block-wrapper .jk-quick-menu .jk-quick-menu-list .jk-quick-menu-item {
-  float: left;
-  width: 31.33333333%;
-  margin: 0 3% 10px 0;
-  text-align: center;
-  font-size: 14px;
-  line-height: 26px;
-}
-.content .jk-block-wrapper .jk-quick-menu .jk-quick-menu-list .jk-quick-menu-item:nth-child(3n) {
-  margin-right: 0;
-}
-.content .jk-block-wrapper .jk-quick-menu .jk-quick-menu-list .jk-quick-menu-item > img {
-  width: 100%;
-}
-.content .jk-block-wrapper .jk-quick-menu .jk-quick-menu-list .jk-quick-menu-item > p {
-  text-align: center;
-}
 .content .jk-block-wrapper .jk-block-title {
-  font-size: 18px;
-  line-height: 36px;
-  text-indent: 30px;
+  font-size: 16px;
+  line-height: 30px;
+  font-weight: normal;
+  border-bottom: 1px dashed #5bba59;
+}
+.content .jk-block-wrapper .jk-block-title .jk-block-title-icon {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  background: url(../images/icon_leaf.png) center center no-repeat #5bba59;
+  background-size: 70% 70%;
+  vertical-align: middle;
+  margin-right: 8px;
 }
 .content .jk-block-wrapper .jk-block-title .jk-block-title-more {
   float: right;
+  content: '';
+  display: inline-block;
+  background: url(../images/more.png) center center no-repeat;
+  background-size: 70% 70%;
+  width: 30px;
+  height: 30px;
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .footer {
   background: #303136;
@@ -371,35 +414,51 @@ body {
 }
 .footer .footer-content .jk-footer-info .jk-service-phone {
   float: left;
-  font-size: 22px;
+  font-size: 16px;
 }
 .jk-article-list-1 {
   overflow: hidden;
-  background: #f1f1f1;
-  border-radius: 0 0 8px 8px;
+  background: #ffffff;
+  margin: 10px 0 0;
+  padding: 25px 20px;
 }
 .jk-article-list-1 .jk-article-cover {
   float: left;
   width: 480px;
+  position: relative;
 }
 .jk-article-list-1 .jk-article-cover img {
-  width: 100%;
-  height: 100%;
+  width: 480px;
+  height: 360px;
 }
 .jk-article-list-1 .jk-article-cover .js-article-title {
   line-height: 36px;
-  background: #f5f5f5;
-  padding: 0 15px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 0 3%;
+  position: absolute;
+  bottom: 0;
+  display: block;
+  width: 94%;
+  color: #ffffff;
   overflow: hidden;
 }
 .jk-article-list-1 .jk-article-cover .js-article-title .jk-article-read {
   float: right;
 }
+.jk-article-list-1 .jk-article-cover .js-article-title .jk-article-read .jk-article-read-icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-right: 5px;
+  background: url(../images/icon_read.png) center center no-repeat;
+  background-size: contain;
+  vertical-align: middle;
+}
 .jk-article-list-1 .jk-article-list {
   float: left;
-  width: 500px;
+  width: 460px;
   line-height: 20px;
-  padding: 10px;
+  margin-left: 20px;
 }
 .jk-article-list-1 .jk-article-list dl {
   line-height: 24px;
@@ -409,11 +468,42 @@ body {
 .jk-article-list-1 .jk-article-list dl:first-child {
   margin-top: 0;
 }
+.jk-article-list-1 .jk-article-list dl dt {
+  font-size: 14px;
+  line-height: 40px;
+  color: #333333;
+  border-bottom: 1px solid #efefef;
+  overflow: hidden;
+}
+.jk-article-list-1 .jk-article-list dl dt .jk-article-active-icon {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  float: right;
+  margin: 15px 0;
+  background-color: #efefef;
+}
 .jk-article-list-1 .jk-article-list dl dd {
-  padding: 5px 8px;
+  padding: 10px 13px;
   display: none;
-  background: #fff;
-  border-radius: 5px;
+  background: #f7f7f7;
+  font-size: 12px;
+  margin: 10px 0;
+}
+.jk-article-list-1 .jk-article-list dl dd span {
+  display: block;
+  overflow: hidden;
+}
+.jk-article-list-1 .jk-article-list dl dd a {
+  float: right;
+  color: #5bba59;
+}
+.jk-article-list-1 .jk-article-list dl.active {
+  cursor: inherit;
+}
+.jk-article-list-1 .jk-article-list dl.active dt .jk-article-active-icon {
+  width: 30px;
+  background-color: #5bba59;
 }
 .jk-article-list-1 .jk-article-list dl.active dd {
   display: block;

@@ -36,62 +36,77 @@
         </div>
     </div>
 
-    <div class="content">
-        <div class="jk-block-wrapper">
-            <div class="jk-slider">
-                <img src="controller/no_image.php?w=680&h=300"/>
-            </div>
-
-            <div class="jk-quick-menu">
-                <h2 class="jk-block-title">快捷功能</h2>
-                <div class="jk-quick-menu-list">
-                    <a href="#" class="jk-quick-menu-item">
-                        <img src="controller/no_image.php?w=90&h=90"/>
-                        <p>注册／登录</p>
-                    </a>
-                    <a href="#" class="jk-quick-menu-item">
-                        <img src="controller/no_image.php?w=90&h=90"/>
-                        <p>注册／登录</p>
-                    </a>
-                    <a href="#" class="jk-quick-menu-item">
-                        <img src="controller/no_image.php?w=90&h=90"/>
-                        <p>注册／登录</p>
-                    </a>
-                    <a href="#" class="jk-quick-menu-item">
-                        <img src="controller/no_image.php?w=90&h=90"/>
-                        <p>注册／登录</p>
-                    </a>
-                    <a href="#" class="jk-quick-menu-item">
-                        <img src="controller/no_image.php?w=90&h=90"/>
-                        <p>注册／登录</p>
-                    </a>
-                    <a href="#" class="jk-quick-menu-item">
-                        <img src="controller/no_image.php?w=90&h=90"/>
-                        <p>注册／登录</p>
-                    </a>
-                </div>
-            </div>
+    <div class="jk-slider-wrapper">
+        <div class="jk-slider">
+            <img src="controller/no_image.php?w=1000&h=300"/>
         </div>
 
+        <div class="jk-quick-menu">
+            <h2 class="jk-block-title"><i></i>快捷功能</h2>
+            <div class="jk-quick-menu-list">
+                <a href="#" class="jk-quick-menu-item">
+                    <img src="{$template_path}/images/icon_member.png" class="jk-quick-menu-icon"/>
+                    <p>注册／登录</p>
+                </a>
+                <a href="#" class="jk-quick-menu-item">
+                    <img src="{$template_path}/images/icon_category.png" class="jk-quick-menu-icon"/>
+                    <p>产品分类</p>
+                </a>
+                <a href="#" class="jk-quick-menu-item">
+                    <img src="{$template_path}/images/icon_service.png" class="jk-quick-menu-icon"/>
+                    <p>在线咨询</p>
+                </a>
+                <a href="#" class="jk-quick-menu-item">
+                    <img src="{$template_path}/images/icon_business.png" class="jk-quick-menu-icon"/>
+                    <p>招商加盟</p>
+                </a>
+                <a href="#" class="jk-quick-menu-item">
+                    <img src="{$template_path}/images/icon_order.png" class="jk-quick-menu-icon"/>
+                    <p>订单查询</p>
+                </a>
+                <a href="#" class="jk-quick-menu-item">
+                    <img src="{$template_path}/images/icon_scan.png" class="jk-quick-menu-icon"/>
+                    <p>防伪查询</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
         <div class="jk-block-wrapper">
-            <h2 class="jk-block-title">《健康就是这么简单》 <a href="#" class="jk-block-title-more">更多>></a> </h2>
+            <h2 class="jk-block-title">
+                <i class="jk-block-title-icon"></i>
+                健康就是这么简单
+                <a href="#" class="jk-block-title-more">更多>></a>
+            </h2>
             <div class="jk-article-list-1">
                 {if $book_list}
                 {foreach $book_list as $section}
                 {if $section@first}
                 <div class="jk-article-cover">
                     <img src="{$section.cover}"/>
-                    <div class="js-article-title">{$section.title|escape} <span class="jk-article-read">{$section.view_count}</span></div>
+                    <div class="js-article-title">
+                        <span id="article-title">{$section.title|escape}</span>
+                        <span class="jk-article-read">
+                            <i class="jk-article-read-icon"></i>
+                            {$section.view_count}
+                        </span>
+                    </div>
                 </div>
                 <div class="jk-article-list">
                 {/if}
                     <dl {if $section@first}class="active"{/if}>
-                        <dt>{$section.title|escape}</dt>
+                        <dt>
+                            {$section.title|escape}
+                            <i class="jk-article-active-icon"></i>
+                        </dt>
                         <dd>
                             简述:
                             <p>
-                                {$section.desc|escape}
-                                <a href="article.php?id={$section.id}">[ 阅读 ]</a>
+                                {$section.desc|escape|truncate:74:'...'}
+                                <span>
+                                    <a href="article.php?id={$section.id}">[ 阅读 ]</a>
+                                </span>
                             </p>
                         </dd>
                     </dl>
@@ -100,6 +115,28 @@
                 {/if}
                 {/foreach}
                 {/if}
+            </div>
+        </div>
+
+        <div class="jk-block-wrapper">
+            <h2 class="jk-block-title">
+                <i class="jk-block-title-icon"></i>
+                专家观点
+                <a href="#" class="jk-block-title-more">更多>></a>
+            </h2>
+            <div class="jk-article-list-2">
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="jk-block-wrapper">
+            <h2 class="jk-block-title">
+                <i class="jk-block-title-icon"></i>
+                品牌视窗
+                <a href="#" class="jk-block-title-more">更多>></a>
+            </h2>
+            <div class="jk-brand-list">
             </div>
         </div>
     </div>

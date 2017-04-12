@@ -211,9 +211,10 @@ a {
 
 @f_sm: 12px;
 @f_m: 14px;
-@f_l: 18px;
-@f_xl: 22px;
-@f_xxl: 36px;
+@f_l: 16px;
+@f_xl: 18px;
+@f_xxl: 24px;
+@f_xxxl: 36px;
 
 @content_width: 1000px;
 
@@ -232,7 +233,7 @@ body {
   height: 100%;
   font-size: @f_m;
   background: @color_white2;
-  font-family: 'Microsoft YaHei';
+  font-family: 'PingFang SC','Microsoft YaHei';
 }
 /** header **/
 .header {
@@ -255,7 +256,7 @@ body {
 
     .jk-site-theme {
       display: inline-block;
-      font-size: @f_xxl;
+      font-size: @f_xxxl;
       font-weight: normal;
       color: @color_green;
       margin-left: 15px;
@@ -267,7 +268,7 @@ body {
       color: @color_black;
       display: inline-block;
       vertical-align: top;
-      font-size: 24px;
+      font-size: @f_xxl;
       font-weight: normal;
       line-height: 56px;
       margin-left: 32px;
@@ -307,7 +308,7 @@ body {
         color: @color_dark_gray;
         font-size: @f_l;
         line-height: 50px;
-        padding: 10px 15px 10px;
+        padding: 10px 15px 11px;
 
         &.active {
           color: @color_green;
@@ -319,6 +320,73 @@ body {
 }
 
 /** content **/
+.jk-slider-wrapper {
+  width: @content_width;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+
+  .jk-slider {
+    width: @content_width;
+    height: 300px;
+  }
+
+  .jk-quick-menu {
+    position: absolute;
+    width: 300px;
+    background-color: @color_white;
+    left: 685px;
+    top: 10px;
+
+    .jk-quick-menu-list {
+      padding: 10px;
+      overflow: hidden;
+
+      .jk-quick-menu-item {
+        float: left;
+        color: @color_black;
+        width: (100%-6%)/3;
+        margin: 0 3% 10px 0;
+        text-align: center;
+        line-height: 40px;
+
+        &:nth-child(3n) {
+          margin-right: 0;
+        }
+
+        & > img {
+          height: 44px;
+          padding: 5px 0;
+        }
+
+        & > p {
+          text-align: center;
+        }
+      }
+    }
+
+    .jk-block-title {
+      line-height: 36px;
+      padding: 6px 0;
+      font-weight: normal;
+      border-bottom: 1px solid #ddd;
+      margin: 0 20px;
+
+      i {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        background-color: @color_green;
+        margin-right: 10px;
+      }
+
+      .jk-block-title-more {
+        float: right;
+      }
+    }
+  }
+}
+
 .content {
   width: @content_width;
   margin: @ma_10 auto;
@@ -328,52 +396,33 @@ body {
     overflow: hidden;
     margin-bottom: 10px;
 
-    .jk-slider {
-      float: left;
-      width: 680px;
-      height: 300px;
-      margin-right: 20px;
-    }
-
-    .jk-quick-menu {
-      float: left;
-      width: 298px;
-      border: 1px solid #cecece;
-
-      .jk-quick-menu-list {
-        padding: 10px;
-        overflow: hidden;
-
-        .jk-quick-menu-item {
-          float: left;
-          width: (100%-6%)/3;
-          margin: 0 3% 10px 0;
-          text-align: center;
-          font-size: 14px;
-          line-height: 26px;
-
-          &:nth-child(3n) {
-            margin-right: 0;
-          }
-
-          &>img {
-            width: 100%;
-          }
-
-          &>p {
-            text-align: center;
-          }
-        }
-      }
-    }
-
     .jk-block-title {
       font-size: @f_l;
-      line-height: @f_l*2;
-      text-indent: 30px;
+      line-height: 30px;
+      font-weight: normal;
+      border-bottom: 1px dashed @color_green;
+
+      .jk-block-title-icon {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        background: url(../images/icon_leaf.png) center center no-repeat @color_green;
+        background-size: 70% 70%;
+        vertical-align: middle;
+        margin-right: 8px;
+      }
 
       .jk-block-title-more {
         float: right;
+        content: '';
+        display: inline-block;
+        background: url(../images/more.png) center center no-repeat;
+        background-size: 70% 70%;
+        width: 30px;
+        height: 30px;
+        text-indent: 100%;
+        white-space: nowrap;
+        overflow: hidden;
       }
     }
   }
@@ -435,7 +484,7 @@ body {
 
       .jk-service-phone {
         float: left;
-        font-size: @f_xl;
+        font-size: @f_l;
       }
     }
   }
@@ -443,35 +492,52 @@ body {
 
 .jk-article-list-1 {
   overflow: hidden;
-  background: #f1f1f1;
-  border-radius: 0 0 8px 8px;
+  background: @color_white;
+  margin: @ma_10 0 0;
+  padding: 25px 20px;
 
   .jk-article-cover {
     float: left;
     width: 480px;
+    position: relative;
 
     img {
-      width: 100%;
-      height: 100%;
+      width: 480px;
+      height: 360px;
     }
 
     .js-article-title {
       line-height: 36px;
-      background: #f5f5f5;
-      padding: 0 15px;
+      background: rgba(0,0,0,0.4);
+      padding: 0 3%;
+      position: absolute;
+      bottom: 0;
+      display: block;
+      width: 94%;
+      color: @color_white;
       overflow: hidden;
 
       .jk-article-read {
         float: right;
+
+        .jk-article-read-icon {
+          display: inline-block;
+          width: 24px;
+          height: 24px;
+          margin-right: 5px;
+          background: url(../images/icon_read.png) center center no-repeat;
+          background-size: contain;
+          vertical-align: middle;
+        }
       }
     }
   }
 
   .jk-article-list {
     float: left;
-    width: 500px;
+    width: 460px;
     line-height: 20px;
-    padding: 10px;
+    margin-left: 20px;
 
     dl {
       line-height: 24px;
@@ -482,14 +548,51 @@ body {
         margin-top: 0;
       }
 
+      dt {
+        font-size: @f_m;
+        line-height: 40px;
+        color: @color_black;
+        border-bottom: 1px solid @color_gray;
+        overflow: hidden;
+
+        .jk-article-active-icon {
+          display: inline-block;
+          width: 10px;
+          height: 10px;
+          float: right;
+          margin: 15px 0;
+          background-color: @color_gray;
+        }
+      }
+
       dd {
-        padding: 5px 8px;
+        padding: 10px 13px;
         display: none;
-        background: #fff;
-        border-radius: 5px;
+        background: @color_white2;
+        font-size: @f_sm;
+        margin: 10px 0;
+
+        span {
+          display: block;
+          overflow: hidden;
+        }
+
+        a {
+          float: right;
+          color: @color_green;
+        }
       }
 
       &.active {
+        cursor: inherit;
+
+        dt {
+          .jk-article-active-icon {
+            width: 30px;
+            background-color: @color_green;
+          }
+        }
+
         dd {
           display: block;
         }
