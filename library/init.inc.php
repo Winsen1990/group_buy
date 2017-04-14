@@ -47,11 +47,20 @@ global $log;
 $log_file = date('Ymd').'.log';
 $log = new Logs($debug_mode, $log_file);
 
+$config_list = $db->get_all('sysconf');
+$sysconf_mapping = array();
+if($config_list) {
+    foreach($config_list as $config) {
+        $sysconf_mapping[$config['key']] = $config['value'];
+    }
+}
+unset($config_list);
+
 //初始化smarty对象
 global $smarty;
 $smarty = new Smarty();
 $smarty->setCompileDir(ROOT_PATH.'data/compiles');
-$smarty->setTemplateDir(ROOT_PATH.'themes/jkdzsw');
+$smarty->setTemplateDir(ROOT_PATH.'themes/'.$sysconf_mapping['theme']);
 $smarty->setCacheDir(ROOT_PATH.'data/cache');
 
 //Debug模式下每次都强制编译输出
@@ -62,22 +71,13 @@ if($debug_mode)
     $smarty->force_compile = true;
 }
 
-$config_list = $db->get_all('sysconf');
-$sysconf_mapping = array();
-if($config_list) {
-    foreach($config_list as $config) {
-        $sysconf_mapping[$config['key']] = $config['value'];
-    }
-}
-unset($config_list);
-
 $smarty->assign('config', $sysconf_mapping);
 $smarty->assign('template_path', BASE_DIR.'themes/jkdzsw');
 
 global $_P;
 $_P['page'] = array(
     'title' => '',
-    'copyright' => 'Copyright &copy; JKDZSW',
+    'copyright' => 'Copyright &copy; '.$sysconf_mapping['copyright'],
 );
 
 $nav_list = $db->get_all('nav', ['parent_id' => 0], [], '`path` ASC,`sort` ASC');
