@@ -259,7 +259,11 @@ button {
   text-indent: 1rem;
   display: block;
   font-size: 1rem;
-  line-height: 2.2rem;
+  line-height: 3.2rem;
+}
+.sf-block .sf-block-content-style-2 a:hover,
+.sf-block .sf-block-content-style-2 a:active {
+  background-color: #e6e6e6;
 }
 .sf-block .sf-block-article-content {
   padding: .5rem .8rem 1rem;
