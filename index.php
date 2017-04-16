@@ -7,11 +7,21 @@
  */
 include 'library/init.inc.php';
 
-//获取 健康就是这么简单
-$book_list = $db->get_all('article', ['section_id' => 4], '', ' `add_time` ASC limit 5');
+global $db, $smarty;
 
-$_P['page']['title'] = 'index';
+//获取 最新资讯
+$article_list = $db->get_all('article', [], '', ' `add_time` DESC limit 10');
 
-$smarty->assign('book_list', $book_list);
+//获取公司简介
+$company_desc = $db->get('article', ['id' => 1]);
+
+//获取轮播图片
+$ad_list = $db->get_all('ad', ['ad_pos_id' => 1], '', '`sort`');
+
+$_P['page']['title'] = '首页';
+
+$smarty->assign('ad_list', $ad_list);
+$smarty->assign('article_list', $article_list);
+$smarty->assign('company_desc', $company_desc);
 $smarty->assign('_P', $_P);
 $smarty->display('index.phtml');

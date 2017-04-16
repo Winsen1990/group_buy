@@ -1,23 +1,135 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <title>生活圈移动商城</title>
+    <title>{if isset($_P.page.title) and $_P.page.title neq ''}{$_P.page.title}-{/if}{$config.site_name|escape}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="application-name" content="生活圈移动商城">
-    <link rel="apple-touch-icon-precomposed" href="themes/easyilife/images/touch/touch-icon-iphone.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="themes/easyilife/images/touch/touch-icon-ipad.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="themes/easyilife/images/touch/touch-icon-iphone4.png">
+    <meta name="application-name" content="{$config.site_name}">
     <meta name="description" content="{$config.meta_description|escape}">
     <meta name="keywords" content="{$config.meta_keywords|escape}">
-    <meta name="author" content="www.kwanson.com">
+    <meta name="author" content="winsen">
     <meta name="version" content="v.1.0.0">
-    <meta http-equiv="Cache-Control" content="no-cache">
-    <meta name="format-detection" content="telephone=no, address=no">
-    <link rel="stylesheet" href="{$template_path}themes/easyilife/css/style.css">
+    <meta http-equiv="Cache-Control" content="no-cache"/>
+    <link rel="stylesheet" href="{$template_path}/css/style.css"/>
 </head>
 <body>
+<div class="body-container">
+{block name="header"}
+<header class="sf-header">
+    <a href="{$config.site_domain}">
+        <img class="sf-logo" src="{$config.logo}"/>
+    </a>
+
+    <h1 class="sf-theme">{$config.site_theme}</h1>
+</header>
+{/block}
+{block name="nav"}
+<section class="sf-main-nav">
+    {if isset($nav_list.middle)}
+    {foreach $nav_list.middle as $_nav}
+    <a href="{$_nav.url}" class="sf-main-nav-item">{$_nav.title|escape}</a>
+    {if $_nav@iteration mod 4 eq 0}
+    </section>
+    <section class="sf-main-nav">
+    {/if}
+    {/foreach}
+    {/if}
+</section>
+{/block}
+{block name="content"}
+<section class="sf-slider" id="sf-slider">
+    <div class="sf-slider-content">
+        <ul>
+            {foreach $ad_list as $ad}
+            <li><a href="{$ad.url}"><img src="{$ad.img}" alt="{$ad.alt|escape}" width="100%"/></a></li>
+            {/foreach}
+        </ul>
+    </div>
+
+    <div class="sf-slider-pagination">
+        <ul></ul>
+    </div>
+</section>
+
+<section class="sf-block">
+    <h2 class="sf-block-title-with-arrow">
+        <a href="article.php?id=1">
+            公司简介
+            <i></i>
+        </a>
+    </h2>
+
+    <div class="sf-block-content-style-1">
+        <img src="{$company_desc.cover}" class="sf-block-content-thumb" alt="{$company_desc.title|escape}"/>
+        <div class="sf-block-content-desc">
+            {$company_desc.desc|truncate:68:'...'}
+            <p>
+                <a href="article.php?id=1">详情>></a>
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="sf-block">
+    <h2 class="sf-block-title">
+        最新资讯
+    </h2>
+
+    <div class="sf-block-content-style-2 {if !$article_list}empty{/if}">
+        {if $article_list}
+        <ul>
+            {foreach $article_list as $article}
+            <li>
+                <a href="article.php?id={$article.id}">
+                    {$article.title|escape}
+                </a>
+            </li>
+            {/foreach}
+        </ul>
+        {else}
+        没有资讯了
+        {/if}
+    </div>
+</section>
+{/block}
+{block name="footer"}
+<footer class="sf-footer">
+    <p>Copyright &copy; 2015-{date('Y')}</p>
+    <p>{$config.copyright}</p>
+    <p>
+        <a href="http://www.miibeian.gov.cn">{$config.case_number}</a>
+    </p>
+</footer>
+<div class="sf-cubes">
+    <a href="#top" class="sf-top"></a>
+    <a href="tel:{$config.service_phone}" class="sf-phone"></a>
+</div>
+{/block}
+</div>
+<script type="text/javascript" src="{$template_path}/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="{$template_path}/js/common.js"></script>
+{block name="script"}
+<script type="text/javascript">
+    $.TouchSlide({
+        slideCell: '#sf-slider',
+        titCell: '.sf-slider-pagination ul', //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+        mainCell: '.sf-slider-content ul',
+        effect: 'leftLoop',
+        autoPlay:true,//自动播放
+        autoPage:true //自动分页
+    });
+</script>
+{/block}
+<script type="text/javascript">
+    window.onscroll = function() {
+        if(window.pageYOffset > 60) {
+            $('.sf-top').css('display', 'block');
+        } else {
+            $('.sf-top').css('display', 'none');
+        }
+    };
+</script>
 </body>
 </html>

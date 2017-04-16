@@ -1,0 +1,47 @@
+{extends file='index.phtml'}
+{block name='content'}
+<section class="sf-block">
+    <div class="sf-slider" id="sf-slider">
+        <div class="sf-slider-content">
+            <ul>
+                <li><img src="{$product.image}" alt="{$product.name|escape}" width="100%"/></li>
+            </ul>
+        </div>
+
+        <div class="sf-slider-pagination">
+            <ul></ul>
+        </div>
+    </div>
+
+    <h2 class="sf-block-title">基本信息</h2>
+    <dl class="sf-product-attribute">
+        <dt>产品名称:</dt>
+        <dd>{$product.name|escape}</dd>
+    </dl>
+
+    <dl class="sf-product-attribute">
+        <dt>零售价:</dt>
+        <dd class="sf-product-price">{sprintf('￥%.2f', $product.price)}</dd>
+    </dl>
+</section>
+
+<section class="sf-block">
+    <h2 class="sf-block-title">产品详情</h2>
+
+    <div class="sf-block-article-content">
+        {$product.detail}
+    </div>
+</section>
+{/block}
+
+{block name="script"}
+<script type="text/javascript">
+    $.TouchSlide({
+        slideCell: '#sf-slider',
+        titCell: '.sf-slider-pagination ul', //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+        mainCell: '.sf-slider-content ul',
+        effect: 'left',
+        autoPage:true //自动分页
+    });
+</script>
+{/block}

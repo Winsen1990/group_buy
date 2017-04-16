@@ -1,0 +1,30 @@
+{extends file='index.phtml'}
+{block name='content'}
+<section class="sf-block">
+    <h2 class="sf-block-title">
+        {$section.name|escape}
+    </h2>
+
+    <div class="sf-block-article-content">
+        <h2 class="sf-block-article-title">{$article.title|escape}</h2>
+        <p class="sf-block-article-info">
+            作者：{$article.author|escape} / <span class="sf-block-article-date">{$article.add_time}</span>
+        </p>
+        <div>
+            {$article.content}
+        </div>
+    </div>
+</section>
+{/block}
+
+{block name="script"}
+<script type="text/javascript">
+    $(function () {
+        $('.sf-block-article-content').find('img').each(function() {
+            $(this).prop('width', 'auto');
+            $(this).prop('height', 'auto');
+            $(this).css({ width: '100%', height: 'auto' });
+        });
+    });
+</script>
+{/block}

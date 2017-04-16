@@ -28,6 +28,17 @@ $menus = array(
     ),
 
     array(
+        'purview_prefix' => 'ad_',
+        'group' => '广告设置',
+        'sub_menus' => array(
+            array('title'=> '广告位置管理', 'url'=>'ad_position.php', 'purview'=>'list', 'display'=>true),
+            array('title'=> '新增广告位置', 'url'=>'ad_position.php?act=add', 'purview'=>'list', 'display'=>true),
+            array('title'=>'广告管理', 'url'=>'ad.php', 'purview'=>'list', 'display'=>true),
+            array('title'=>'新增广告', 'url'=>'ad.php?act=add', 'purview'=>'list', 'display'=>true),
+        )
+    ),
+
+    array(
         'purview_prefix' => 'section_',
         'group' => '栏目管理',
         'sub_menus' => array(

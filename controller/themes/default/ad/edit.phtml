@@ -1,0 +1,167 @@
+{extends file='common/template.phtml'}
+{block name='content'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">{$_P['page']['title']}</span>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal" method="post" action="nav.php?act=add" onsubmit="return add_ad()">
+            <div class="form-group">
+                <label class="control-label col-md-2">广告名称</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="alt" id="alt" value="{$ad.alt|escape}" placeholder="请填写广告名称"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">广告位置</label>
+                <div class="col-md-4">
+                    <select class="form-control" name="ad_pos_id" id="ad_pos_id">
+                        {if $ad_pos_list}
+                        {foreach $ad_pos_list as $_ad_pos}
+                        <option value="{$_ad_pos.id}" {if $ad.ad_pos_id eq $_ad_pos.id}selected="selected"{/if}>{$_ad_pos.pos_name}</option>
+                        {/foreach}
+                        {/if}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">广告图片</label>
+                <div class="col-md-4">
+                    <img class="img-thumbnail" id="img-preview" width="480" height="320" src="{$ad.img}"/>
+                    <input type="hidden" name="img" id="img" value="{$ad.img}"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">广告链接</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="url" id="url" value="{$ad.url}" placeholder="请填写广告链接"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">排序</label>
+                <div class="col-md-4">
+                    <input type="number" class="form-control" name="sort" id="sort" placeholder="请填写排序"  value="{$ad.sort|intval}"/>
+                    <div class="help-block">请填写正整数，数字越小，排序越前</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">&nbsp;</label>
+                <div class="col-md-10">
+                    <button class="btn btn-primary" name="submit" id="submit">编辑</button>
+                    <a class="btn btn-default" href="ad.php?act=list">返回</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="panel-footer text-right">
+        {$_P['page']['copyright']}
+    </div>
+</div>
+<link rel="stylesheet" href="../plugins/common/kindeditor/themes/default/default.css" />
+<script src="../plugins/common/kindeditor/kindeditor.js"></script>
+<script src="../plugins/common/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript">
+    KindEditor.ready(function(K) {
+        var editor = K.editor({
+            allowFileManager : true
+        });
+        K('#img-preview').click(function() {
+            editor.loadPlugin('insertimage', function() {
+                editor.plugin.imageDialog({
+                    imageUrl : K('#img').val(),
+                    clickFn : function(url) {
+                        K('#img').val(url);
+                        K('#img-preview').attr('src', url);
+                        editor.hideDialog();
+                    }
+                });
+            });
+        });
+    });
+
+    function add_ad() {
+        var data = {
+            alt: $.trim($('#alt').val()),
+            ad_pos_id: parseInt($('#ad_pos_id').val()),
+            img: $.trim($('#img').val()),
+            url: $.trim($('#url').val()),
+            sort: parseInt($('#sort').val()),
+            opera: 'edit',
+            id: {$ad.id}
+        };
+
+        var error_msg = '';
+
+        if(data.alt == '') {
+            error_msg += '-请填写广告名称<br/>';
+            $('#alt').parent().addClass('has-error');
+        } else {
+            $('#alt').parent().removeClass('has-error');
+        }
+
+        if(isNaN(data.ad_pos_id) || data.ad_pos_id < 0) {
+            error_msg += '-请选择广告位置<br/>';
+            $('#ad_pos_id').parent().addClass('has-error');
+        } else {
+            $('#ad_pos_id').parent().removeClass('has-error');
+        }
+
+        if(data.img == '') {
+            error_msg += '-请选择广告图片<br/>';
+            $('#img').parent().addClass('has-error');
+        } else {
+            $('#img').parent().removeClass('has-error');
+        }
+
+        if(data.url == '') {
+            error_msg += '-请填写广告链接<br/>';
+            $('#url').parent().addClass('has-error');
+        } else {
+            $('#url').parent().removeClass('has-error');
+        }
+
+        if(isNaN(data.sort) || data.sort < 0) {
+            error_msg += '-请填写排序<br/>';
+            $('#sort').parent().addClass('has-error');
+        } else {
+            $('#sort').parent().removeClass('has-error');
+        }
+
+        if(error_msg == '') {
+            var url = 'ad.php';
+
+            $.post(url, data, add_ad_success, 'json');
+        } else {
+            layer.alert(error_msg);
+        }
+
+        return false;
+    }
+
+    function add_ad_success(response) {
+        if(response.error == 0) {
+            layer.open({
+                shade: [0.5, '#333333'],
+                icon: 1,
+                closeBtn: 0,
+                content: response.message,
+                btn: ['继续编辑', '查看列表'],
+                yes: function(index, layero) {
+                    layer.close(index);
+                    window.location.reload();
+                },
+                cancel: function() {
+                    window.location.href = 'ad.php?act=list';
+                }
+            });
+        } else {
+            layer.alert(response.message);
+        }
+    }
+</script>
+{/block}

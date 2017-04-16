@@ -3,7 +3,9 @@
 html.hairlines *{border-width:0.5px !important;}
 /** 全局reset **/
 body,header,footer,section,div,span,p,img,a,ul,ol,li,dl,dt,dd,h1,h2,h3,h4,h5,h6,em,i,b,u,del,menu,nav,fieldset,legend,article,aside,details,figcaption,hgroup,pre,code,from,blockquote,th,td,tr,hr,table,img,figure,button,input,textarea{padding:0;margin:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;-o-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-text-size-adjust:none;-webkit-tap-highlight-color:rgba(0,0,0,0);font-family:Microsoft Yahei,Helvetica,Arial;}
-body{background-color:#fff;}
+html,body{
+  background-color: #f1f1f1;
+}
 /* webkit引擎的浏览器取消默认样式(-webkit-appearance) */
 :focus{outline:none;}
 img{vertical-align:middle;border:0 none;}
@@ -17,3 +19,307 @@ button,input{border:0 none;}
 u,del{text-decoration:none;}
 /* webkit引擎的浏览器取消默认样式 */
 input[type="submit"],input[type="reset"],input[type="button"],input[type="password"],input[type="text"],button{-webkit-appearance:none;outline:none;}
+
+@color_black: #000000;
+@color_lighter_green: #6d9e49;
+@color_light_green: #a5c796;
+@color_green: #408a09;
+@color_dark_green: #044c29;
+@color_white: #ffffff;
+@color_gray: #cecece;
+
+.body-container {
+  display: block;
+  margin: 0 auto;
+  max-width: 690px;
+  text-align: center;
+}
+
+/* header */
+.sf-header {
+  background-color: @color_dark_green;
+  color: @color_white;
+  overflow: hidden;
+  text-align: center;
+  position: relative;
+
+  .sf-logo {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    left: 5px;
+    top: 5px;
+  }
+
+  .sf-theme {
+    font-size: 1.4rem;
+    font-weight: normal;
+    line-height: 60px;
+  }
+}
+
+/* main-nav */
+.sf-main-nav {
+  display: table;
+  width: 100%;
+  background-color: @color_green;
+  border-bottom: 1px solid #8bc34a;
+
+  .sf-main-nav-item {
+    display: table-cell;
+    padding: 0 .5rem;
+    color: @color_white;
+    border-right: 1px solid #8bc34a;
+    font-size: 1rem;
+    line-height: 2.2rem;
+
+    &:last-child {
+      border-right: 0;
+    }
+  }
+}
+
+.sf-slider {
+  position: relative;
+  overflow: hidden;
+
+  .sf-slider-pagination {
+    position: absolute;
+    bottom: .5rem;
+    text-align: center;
+    display: block;
+    width: 100%;
+
+    li {
+      display: inline-block;
+      width: .5rem;
+      height: .5rem;
+      border-radius: .25rem;
+      background-color: @color_gray;
+      margin-right: .5rem;
+      text-indent: -100%;
+      overflow: hidden;
+      border: 1px solid transparent;
+      opacity: 0.8;
+
+      &.on {
+        background-color: @color_white;
+        border-color: @color_green;
+      }
+    }
+  }
+}
+
+/* block */
+.sf-block {
+  overflow: hidden;
+  margin-bottom: .5rem;
+  background-color: @color_white;
+
+  .sf-block-title, .sf-block-title-with-arrow {
+    background-color: @color_lighter_green;
+    color: @color_white;
+    font-size: 1.1rem;
+    font-weight: normal;
+    line-height: 2.4rem;
+    text-align: left;
+    text-indent: 1rem;
+
+    &>a {
+      color: @color_white;
+    }
+  }
+
+  .sf-block-title-with-arrow {
+    i {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-top: 1px solid #fff;
+      border-right: 1px solid #fff;
+      transform: rotate(45deg) translate(0, 1.2rem);
+      float: right;
+    }
+  }
+
+  .sf-block-content-style-1 {
+    padding: .5rem;
+    overflow: hidden;
+
+    .sf-block-content-thumb {
+      float: left;
+      width: 30%;
+    }
+
+    .sf-block-content-desc {
+      float: left;
+      width: 68%;
+      padding-left: 2%;
+      text-align: left;
+
+      &>p {
+        display: block;
+        text-align: right;
+
+        a {
+          color: @color_green;
+        }
+      }
+    }
+  }
+
+  .sf-block-content-style-2 {
+    text-align: left;
+    padding: 0 0 .5rem;
+
+    &.empty {
+      padding: 0.8rem;
+      text-align: center;
+    }
+
+    li {
+      border-bottom: 1px solid @color_gray;
+
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+
+    a {
+      text-indent: 1rem;
+      display: block;
+      font-size: 1rem;
+      line-height: 2.2rem;
+    }
+  }
+
+  .sf-block-article-content {
+    padding: .5rem .8rem 1rem;
+    text-align: left;
+    font-size: 1rem;
+    line-height: 1.8rem;
+
+    .sf-block-article-title {
+      font-weight: normal;
+      text-align: center;
+      font-size: 1.1rem;
+      line-height: 2.2rem;
+    }
+
+    .sf-block-article-info {
+      text-align: center;
+      font-size: .8rem;
+      border-bottom: 1px solid @color_dark_green;
+    }
+
+    .sf-block-article-date {
+      color: #ff0000;
+    }
+  }
+
+  .sf-block-content-style-3 {
+    text-align: left;
+    padding: 0;
+    overflow: hidden;
+
+    &.empty {
+      padding: 0.8rem;
+      text-align: center;
+    }
+
+    .sf-product-item {
+      width: 28.33%;
+      display: block;
+      float: left;
+      letter-spacing: initial;
+      overflow: hidden;
+      padding: 1.5% 2.5%;
+      background-color: #ffffff;
+
+      &:nth-child(2n) {
+        background-color: darken(#ffffff, 2%);
+      }
+
+      .sf-product-image {
+        width: 100%;
+      }
+
+      p {
+        font-size: 1rem;
+        line-height: 1.8rem;
+        text-align: center;
+
+        &.sf-product-price {
+          color: #ff0000;
+        }
+      }
+    }
+  }
+
+  .sf-product-attribute {
+    float: left;
+    width: 50%;
+    display: table;
+    font-size: 1rem;
+    line-height: 2rem;
+
+    dt {
+      text-align: right;
+    }
+
+    dt, dd {
+      display: table-cell;
+    }
+
+    .sf-product-price {
+      color: #ff0000;
+    }
+  }
+}
+
+/* footer */
+.sf-footer {
+  padding: .8rem 0;
+  background-color: @color_light_green;
+  color: @color_black;
+  text-align: center;
+  font-size: 1rem;
+
+  &>p {
+    line-height: 1.8rem;
+  }
+
+  &>a {
+    color: @color_black;
+  }
+}
+
+.sf-cubes {
+  position: fixed;
+  right: 3px;
+  bottom: 10px;
+  width: 37px;
+
+  .sf-top, .sf-phone {
+    background-image: url(../images/icon_sprite.png);
+    background-repeat: no-repeat;
+    background-position: -37px 0;
+    width: 37px;
+    height: 37px;
+    display: none;
+
+    &:active, &:hover {
+      background-position: 0 0;
+    }
+  }
+
+  .sf-phone {
+    display: block;
+    background-position: -37px -38px;
+    margin-top: 5px;
+
+    &:active, &:hover {
+      background-position: 0 -37px;
+    }
+  }
+}

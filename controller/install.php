@@ -10,6 +10,31 @@ include 'library/init.inc.php';
 $sql = array();
 $table = array();
 
+$table[] = '广告位置';
+$sql[] = 'create table if not exists '.$db->table('ad_position').' (
+    `id` int not null auto_increment primary key,
+    `pos_name` varchar(255) not null,
+    `width` varchar(255) not null,
+    `height` varchar(255) not null,
+    `number` int not null default \'1\',
+    `code` text
+) default charset=utf8;';
+
+$table[] = '广告';
+$sql[] = 'create table if not exists '.$db->table('ad').' (
+    `id` int not null auto_increment primary key,
+    `img` varchar(255) not null,
+    `alt` varchar(255),
+    `add_time` int not null,
+    `begin_time` int,
+    `end_time` int,
+    `forever` tinyint(1) not null default \'0\',
+    `click_time` int not null default \'0\',
+    `url` varchar(255) not null,
+    `sort` int not null default \'50\',
+    `ad_pos_id` int not null
+) default charset=utf8;';
+
 $table[] = '商品表';
 $sql[] = 'create table if not exists '.$db->table('product').' (
     `id` bigint not null auto_increment unique,

@@ -80,3 +80,7 @@ $_P['page'] = array(
 if(!isset($_SESSION['login_fail'])) {
     $_SESSION['login_fail'] = 0;
 }
+
+function show_system_message($message, $context) {
+    echo $message;
+}

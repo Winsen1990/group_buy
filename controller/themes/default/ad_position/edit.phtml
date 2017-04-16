@@ -1,0 +1,108 @@
+{extends file='common/template.phtml'}
+{block name='content'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">{$_P['page']['title']}</span>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal" method="post" action="ad_position.php?act=add" onsubmit="return edit_ad_position()">
+            <div class="form-group">
+                <label class="control-label col-md-2">广告位置</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="pos_name" id="pos_name" value="{$ad_pos.pos_name|escape}" placeholder="请填写广告位置"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">宽度</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="width" id="width" value="{$ad_pos.width|intval}" placeholder="请填写宽度"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">高度</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="height" id="height" value="{$ad_pos.height|intval}" placeholder="请填写高度"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">&nbsp;</label>
+                <div class="col-md-10">
+                    <button class="btn btn-primary" name="submit" id="submit">编辑</button>
+                    <a class="btn btn-default" href="ad_position.php?act=list">返回</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="panel-footer text-right">
+        {$_P['page']['copyright']}
+    </div>
+</div>
+<script type="text/javascript">
+    function edit_ad_position() {
+        var data = {
+            pos_name: $.trim($('#pos_name').val()),
+            width: parseInt($('#width').val()),
+            height: parseInt($('#height').val()),
+            opera: 'edit',
+            id: {$ad_pos.id}
+        };
+
+        var error_msg = '';
+
+        if(data.pos_name == '') {
+            error_msg += '-请填写广告位置<br/>';
+            $('#pos_name').parent().addClass('has-error');
+        } else {
+            $('#pos_name').parent().removeClass('has-error');
+        }
+
+        if(isNaN(data.width) || data.width < 0) {
+            error_msg += '-请填写宽度<br/>';
+            $('#width').parent().addClass('has-error');
+        } else {
+            $('#width').parent().removeClass('has-error');
+        }
+
+        if(isNaN(data.height) || data.height < 0) {
+            error_msg += '-请填写高度<br/>';
+            $('#height').parent().addClass('has-error');
+        } else {
+            $('#height').parent().removeClass('has-error');
+        }
+
+        if(error_msg == '') {
+            var url = 'ad_position.php';
+
+            $.post(url, data, edit_ad_position_success, 'json');
+        } else {
+            layer.alert(error_msg);
+        }
+
+        return false;
+    }
+
+    function edit_ad_position_success(response) {
+        if(response.error == 0) {
+            layer.open({
+                shade: [0.5, '#333333'],
+                icon: 1,
+                closeBtn: 0,
+                content: response.message,
+                btn: ['继续编辑', '查看列表'],
+                yes: function(index, layero) {
+                    layer.close(index);
+                    window.location.reload();
+                },
+                cancel: function() {
+                    window.location.href = 'ad_position.php?act=list';
+                }
+            });
+        } else {
+            layer.alert(response.message);
+        }
+    }
+</script>
+{/block}

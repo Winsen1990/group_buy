@@ -1,0 +1,91 @@
+{extends file='common/template.phtml'}
+{block name='content'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">{$_P['page']['title']}</span>
+    </div>
+    <div class="panel-body">
+        <table class="table table-hover table-responsive">
+            <thead>
+                <tr>
+                    <th>排序</th>
+                    <th>广告位置</th>
+                    <th>广告名称</th>
+                    <th>广告图片</th>
+                    <th>广告链接</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            {if isset($ad_list) and count($ad_list)}
+            {foreach $ad_list as $ad}
+            <tr>
+                <td>{$ad.sort|intval}</td>
+                <td>{$ad.pos_name}</td>
+                <td>{$ad.alt|escape}</td>
+                <td><img src="{$ad.img}" width="200px"/></td>
+                <td>{$ad.url|escape}</td>
+                <td>
+                    <a href="ad.php?act=edit&id={$ad.id}" class="btn btn-default" title="编辑">
+                        <i class="glyphicon glyphicon-pencil"></i>
+                    </a>
+
+                    <a href="javascript:void(0);" data-id="{$ad.id}" class="btn btn-default delete" title="删除">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {/foreach}
+            {else}
+            <tr>
+                <td colspan="6" class="text-center">
+                    暂无广告，请先 <a href="ad.php?act=add">添加</a>
+                </td>
+            </tr>
+            {/if}
+            </tbody>
+        </table>
+    </div>
+    <div class="panel-footer text-right">
+        {$_P['page']['copyright']}
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        var delete_btns = $('.delete');
+
+        delete_btns.each(function(i, e) {
+            $(this).bind('click', delete_ad);
+        });
+    });
+
+    function delete_ad() {
+        var data = {
+            id: $(this).attr('data-id'),
+            opera: 'delete'
+        };
+
+        var url = 'ad.php';
+
+        layer.confirm('您确定要删除该广告?', { icon: 3 }, function() {
+            $.post(url, data, delete_ad_success, 'json');
+        });
+    }
+
+    function delete_ad_success(response) {
+        if(response.error == 0) {
+            layer.open({
+                shade: [0.5, '#333333'],
+                icon: 1,
+                closeBtn: 0,
+                content: response.message,
+                yes: function() {
+                    window.location.reload();
+                }
+            });
+        } else {
+            layer.alert(response.message);
+        }
+    }
+</script>
+{/block}

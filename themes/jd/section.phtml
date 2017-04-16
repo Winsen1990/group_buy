@@ -1,0 +1,32 @@
+{extends file='index.phtml'}
+{block name='content'}
+<section class="sf-block">
+    <h2 class="sf-block-title">
+        {$section.name|escape}
+    </h2>
+
+    <div class="sf-block-content-style-2 {if !$article_list}empty{/if}">
+        {if $article_list}
+        <ul>
+            {foreach $article_list as $article}
+            <li>
+                <a href="article.php?id={$article.id}">
+                    {$article.title|escape}
+                </a>
+            </li>
+            {/foreach}
+        </ul>
+        {else}
+        没有资讯了
+        {/if}
+    </div>
+</section>
+{/block}
+
+{block name="script"}
+<script type="text/javascript">
+    $(function () {
+
+    });
+</script>
+{/block}
