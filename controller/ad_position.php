@@ -35,12 +35,12 @@ if( 'add' == $opera ) {
     }
 
     if($ajax_response['message'] == '') {
-        $ad_data = [
+        $ad_data = array(
             'pos_name' => $pos_name,
             'height' => $height,
             'width' => $width
-        ];
-        if ($db->auto_insert('ad_position', [$ad_data])) {
+        );
+        if ($db->auto_insert('ad_position', array($ad_data))) {
             $ajax_response['error'] = 0;
             $ajax_response['message'] .= '广告位置-' . $pos_name . '-添加成功';
         } else {
@@ -86,11 +86,11 @@ if( 'edit' == $opera ) {
     }
 
     if($ajax_response['message'] == '') {
-        $ad_data = [
+        $ad_data = array(
             'pos_name' => $pos_name,
             'height' => $height,
             'width' => $width
-        ];
+        );
 
         if ($db->auto_update('ad_position', $ad_data, '`id`='.$id)) {
             $ajax_response['error'] = 0;

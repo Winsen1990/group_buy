@@ -45,13 +45,13 @@ if( 'add' == $opera ) {
     }
 
     if($ajax_response['message'] == '') {
-        $ad_data = [
+        $ad_data = array(
             'alt' => $alt,
             'url' => $url,
             'img' => $img,
             'sort' => $sort,
             'ad_pos_id' => $ad_pos_id
-        ];
+        );
         if ($db->auto_insert('ad', array($ad_data))) {
             $ajax_response['error'] = 0;
             $ajax_response['message'] .= '广告-' . $alt . '-添加成功';
@@ -80,7 +80,7 @@ if( 'edit' == $opera ) {
     if(0 >= $id) {
         $ajax_response['message'] .= '-参数错误'.BR;
     } else {
-        if(!$db->get('ad', ['id' => $id])) {
+        if(!$db->get('ad', array('id' => $id))) {
             $ajax_response['message'] .= '-广告不存在'.BR;
         }
     }
@@ -108,13 +108,13 @@ if( 'edit' == $opera ) {
     }
 
     if($ajax_response['message'] == '') {
-        $ad_data = [
+        $ad_data = array(
             'alt' => $alt,
             'url' => $url,
             'img' => $img,
             'sort' => $sort,
             'ad_pos_id' => $ad_pos_id
-        ];
+        );
 
         if ($db->auto_update('ad', $ad_data, '`id`='.$id)) {
             $ajax_response['error'] = 0;
