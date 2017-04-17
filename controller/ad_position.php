@@ -66,7 +66,7 @@ if( 'edit' == $opera ) {
     if(0 >= $id) {
         $ajax_response['message'] .= '-参数错误'.BR;
     } else {
-        if(!$db->get('ad_position', ['id' => $id])) {
+        if(!$db->get('ad_position', array('id' => $id))) {
             $ajax_response['message'] .= '-广告位置不存在'.BR;
         }
     }

@@ -10,13 +10,13 @@ include 'library/init.inc.php';
 global $db, $smarty;
 
 //获取 最新资讯
-$article_list = $db->get_all('article', [], '', ' `add_time` DESC limit 10');
+$article_list = $db->get_all('article', array(), '', ' `add_time` DESC limit 10');
 
 //获取公司简介
-$company_desc = $db->get('article', ['id' => 1]);
+$company_desc = $db->get('article', array('id' => 1));
 
 //获取轮播图片
-$ad_list = $db->get_all('ad', ['ad_pos_id' => 1], '', '`sort`');
+$ad_list = $db->get_all('ad', array('ad_pos_id' => 1), '', '`sort`');
 
 $_P['page']['title'] = '首页';
 

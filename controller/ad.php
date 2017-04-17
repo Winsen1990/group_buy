@@ -52,7 +52,7 @@ if( 'add' == $opera ) {
             'sort' => $sort,
             'ad_pos_id' => $ad_pos_id
         ];
-        if ($db->auto_insert('ad', [$ad_data])) {
+        if ($db->auto_insert('ad', array($ad_data))) {
             $ajax_response['error'] = 0;
             $ajax_response['message'] .= '广告-' . $alt . '-添加成功';
         } else {

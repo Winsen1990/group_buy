@@ -20,7 +20,7 @@ $get_product_list = 'select `name`,`id`,`price`,`thumb` from '.$db->table('produ
 
 if(!$category)
 {
-    $category = ['name' => '产品中心'];
+    $category = array('name' => '产品中心');
 } else {
     $get_product_list .= ' and `category_id`='.$id;
 }
