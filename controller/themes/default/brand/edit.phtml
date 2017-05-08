@@ -1,0 +1,210 @@
+{extends file='common/template.phtml'}
+{block name='content'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">{$_P['page']['title']}</span>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal" method="post" action="brand.php?act=add" onsubmit="return edit_brand()">
+            <div class="form-group">
+                <label class="control-label col-md-2">品牌名称</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="name" id="name" placeholder="请填写品牌名称" value="{$brand.name|escape}"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">品牌简介</label>
+                <div class="col-md-4">
+                    <textarea class="form-control" name="desc" id="desc" placeholder="请填写品牌简介">{$brand.desc|escape}</textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">关键词</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="keywords" id="keywords" placeholder="请填写关键词" value="{$brand.keywords|escape}"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">缩略图</label>
+                <div class="col-md-4">
+                    <img class="img-thumbnail" id="logo-preview" width="100" height="100" src="{$brand.logo}"/>
+                    <input type="hidden" name="logo" id="logo" value="{$brand.logo}"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">品牌详情</label>
+                <div class="col-md-4">
+                    <textarea name="content" id="content">{$brand.content}</textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">排序</label>
+                <div class="col-md-4">
+                    <input type="number" class="form-control" name="sort" id="sort" placeholder="请填写排序" value="{$brand.sort}"/>
+                    <div class="help-block">请填写正整数，数字越小，排序越前</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">状态</label>
+                <div class="col-md-4">
+                    <select class="form-control" name="status" id="status">
+                        <option value="1">发布</option>
+                        <option value="0" {if $brand.status eq 0}selected="selected"{/if}>存草稿</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">&nbsp;</label>
+                <div class="col-md-10">
+                    <button class="btn btn-primary" name="submit" id="submit">修改</button>
+                    <a class="btn btn-default" href="brand.php?act=list">返回</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="panel-footer text-right">
+        {$_P['page']['copyright']}
+    </div>
+</div>
+<link rel="stylesheet" href="../plugins/common/kindeditor/themes/default/default.css" />
+<script src="../plugins/common/kindeditor/kindeditor.js"></script>
+<script src="../plugins/common/kindeditor/lang/zh_CN.js"></script>
+<link rel="stylesheet" href="../plugins/common/kindeditor/plugins/code/prettify.css" />
+<script charset="utf-8" src="../plugins/common/kindeditor/plugins/code/prettify.js"></script>
+
+<script type="text/javascript">
+    var content = null;
+
+    KindEditor.ready(function(K) {
+        var editor = K.editor({
+            allowFileManager : true
+        });
+        K('#logo-preview').click(function() {
+            editor.loadPlugin('insertimage', function() {
+                editor.plugin.imageDialog({
+                    imageUrl : K('#logo').val(),
+                    clickFn : function(url) {
+                        K('#logo').val(url);
+                        K('#logo-preview').attr('src', url);
+                        editor.hideDialog();
+                    }
+                });
+            });
+        });
+        content = K.create('textarea[name="content"]', {
+            allowFileManager : true,
+            width: 670,
+            height: 300,
+            afterCreate : function() {
+                var self = this;
+                K.ctrl(document, 13, function() {
+                    self.sync();
+                    K('form')[0].submit();
+                });
+                K.ctrl(self.edit.doc, 13, function() {
+                    self.sync();
+                    K('form')[0].submit();
+                });
+            }
+        });
+        prettyPrint();
+    });
+
+    function edit_brand() {
+        content.sync();
+        var data = {
+            name: $.trim($('#name').val()),
+            desc: $.trim($('#desc').val()),
+            keywords: $.trim($('#keywords').val()),
+            logo: $.trim($('#logo').val()),
+            content: $('#content').val(),
+            sort: parseInt($('#sort').val()),
+            status: parseInt($('#status').val()),
+            opera: 'edit',
+            id: {$brand.id}
+        };
+
+        var error_msg = '';
+
+        if(data.name == '') {
+            error_msg += '-请填写品牌名称<br/>';
+            $('#name').parent().addClass('has-error');
+        } else {
+            $('#name').parent().removeClass('has-error');
+        }
+
+        if(data.desc == '') {
+            error_msg += '-请填写品牌简介<br/>';
+            $('#desc').parent().addClass('has-error');
+        } else {
+            $('#desc').parent().removeClass('has-error');
+        }
+
+        if(data.keywords == '') {
+            error_msg += '-请填写关键词<br/>';
+            $('#keywords').parent().addClass('has-error');
+        } else {
+            $('#keywords').parent().removeClass('has-error');
+        }
+
+        if(data.logo == '') {
+            error_msg += '-请选择品牌LOGO<br/>';
+            $('#logo').parent().addClass('has-error');
+        } else {
+            $('#logo').parent().removeClass('has-error');
+        }
+
+        if(data.content == '') {
+            error_msg += '-请填写品牌详情<br/>';
+            $('#content').parent().addClass('has-error');
+        } else {
+            $('#content').parent().removeClass('has-error');
+        }
+
+        if(isNaN(data.sort) || data.sort < 0) {
+            error_msg += '-请填写排序<br/>';
+            $('#sort').parent().addClass('has-error');
+        } else {
+            $('#sort').parent().removeClass('has-error');
+        }
+
+        if(error_msg == '') {
+            var url = 'brand.php';
+
+            $.post(url, data, edit_brand_success, 'json');
+        } else {
+            layer.alert(error_msg);
+        }
+
+        return false;
+    }
+
+    function edit_brand_success(response) {
+        if(response.error == 0) {
+            layer.open({
+                shade: [0.5, '#333333'],
+                icon: 1,
+                closeBtn: 0,
+                content: response.message,
+                btn: ['继续修改', '查看列表'],
+                yes: function(index, layero) {
+                    layer.close(index);
+                    window.location.reload();
+                },
+                cancel: function() {
+                    window.location.href = 'brand.php?act=list';
+                }
+            });
+        } else {
+            layer.alert(response.message);
+        }
+    }
+</script>
+{/block}

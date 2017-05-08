@@ -31,6 +31,7 @@ if( 'add' == $opera ) {
     $detail = getPOST('detail');
     $unit = getPOST('unit');
     $sort = intval(getPOST('sort'));
+    $brand_id = intval(getPOST('brand_id'));
 
     $ajax_response = array('error' => -1, 'message' => '');
 
@@ -40,6 +41,10 @@ if( 'add' == $opera ) {
 
     if(0 > $category_id) {
         $ajax_response['message'] .= '-请选择商品分类'.BR;
+    }
+
+    if(0 > $brand_id) {
+        $ajax_response['message'] .= '-请选择商品品牌'.BR;
     }
 
     if('' == $desc) {
@@ -88,7 +93,7 @@ if( 'add' == $opera ) {
 
     if($ajax_response['message'] == '') {
         if ($productDAO->add($name, $category_id, $market_price, $price, $group_limit, $group_price, $image, $thumb,
-                             $detail, $desc, $unit, $station_id, $sort, $status)) {
+                             $detail, $desc, $unit, $station_id, $sort, $status, $brand_id)) {
             $ajax_response['error'] = 0;
             $ajax_response['message'] .= '商品-' . $name . '-添加成功';
         } else {
@@ -117,6 +122,7 @@ if( 'edit' == $opera ) {
     $detail = getPOST('detail');
     $unit = getPOST('unit');
     $sort = intval(getPOST('sort'));
+    $brand_id = intval(getPOST('brand_id'));
 
     $ajax_response = array('error' => -1, 'message' => '');
 
@@ -132,6 +138,10 @@ if( 'edit' == $opera ) {
 
     if(0 > $category_id) {
         $ajax_response['message'] .= '-请选择商品分类'.BR;
+    }
+
+    if(0 > $brand_id) {
+        $ajax_response['message'] .= '-请选择商品品牌'.BR ;
     }
 
     if('' == $desc) {
@@ -192,6 +202,7 @@ if( 'edit' == $opera ) {
         $productDAO->sort = $sort;
         $productDAO->status = $status;
         $productDAO->unit = $unit;
+        $productDAO->brand_id = $brand_id;
 
         if ($productDAO->save()) {
             $ajax_response['error'] = 0;
@@ -231,8 +242,8 @@ if( 'delete' == $opera ) {
 
 //商品列表
 if( 'list' == $act ) {
-    $get_product_list = 'select a.*,c.`name` as `category_name` from '.$db->table('product').' as a left join '.$db->table('category').' as c '.
-                        ' on c.`id`=a.`category_id` where 1  order by a.`add_time` DESC, a.`sort` ASC';
+    $get_product_list = 'select a.*,c.`name` as `category_name`,b.`name` as `brand_name` from '.$db->table('product').' as a left join '.$db->table('category').' as c '.
+                        ' on c.`id`=a.`category_id` left join '.$db->table('brand').' as b on b.`id`=a.`brand_id` where 1  order by a.`add_time` DESC, a.`sort` ASC';
     $product_list = $db->fetch_all($get_product_list);
 
     //设置路径导航
@@ -266,6 +277,9 @@ if( 'add' == $act ) {
         }
     }
 
+    $get_brand_list = 'select `id`,`name` from '.$db->table('brand');
+    $brand_list = $db->fetch_all($get_brand_list);
+
     //设置路径导航
     $breadcrumb = array(
         array('name' => '首页', 'url' => 'index.php'),
@@ -277,6 +291,7 @@ if( 'add' == $act ) {
 
     $smarty->assign('breadcrumb', $breadcrumb);
     $smarty->assign('category_list', $category_list);
+    $smarty->assign('brand_list', $brand_list);
 }
 
 //编辑商品
@@ -316,6 +331,9 @@ if( 'edit' == $act ) {
         }
     }
 
+    $get_brand_list = 'select `id`,`name` from '.$db->table('brand');
+    $brand_list = $db->fetch_all($get_brand_list);
+
     //设置路径导航
     $breadcrumb = array(
         array('name' => '首页', 'url' => 'index.php'),
@@ -327,6 +345,7 @@ if( 'edit' == $act ) {
 
     $smarty->assign('breadcrumb', $breadcrumb);
     $smarty->assign('category_list', $category_list);
+    $smarty->assign('brand_list', $brand_list);
 }
 
 $smarty->assign('_P', $_P);

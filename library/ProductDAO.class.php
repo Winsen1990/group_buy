@@ -11,6 +11,7 @@ class ProductDAO extends BaseDAO {
     public $status;
     public $name;
     public $category_id;
+    public $brand_id;
     public $image;
     public $thumb;
     public $market_price;
@@ -56,7 +57,8 @@ class ProductDAO extends BaseDAO {
             'detail' => $this->detail,
             'unit' => $this->unit,
             'desc' => $this->desc,
-            'sort' => $this->sort
+            'sort' => $this->sort,
+            'brand_id' => $this->brand_id
         );
 
         return $this->db->auto_update($this->__name, $data, '`'.$this->primary_key.'`=\''.$this->{$this->primary_key}.'\'');
@@ -88,7 +90,7 @@ class ProductDAO extends BaseDAO {
     }
 
     public function add($name, $category_id, $market_price, $price, $group_limit, $group_price, $image,
-                        $thumb, $detail, $desc, $unit, $station_id, $sort = 50, $status = 1, $product_sn = '') {
+                        $thumb, $detail, $desc, $unit, $station_id, $sort = 50, $status = 1, $brand_id = 0, $product_sn = '') {
         if($product_sn == '') {
             $product_sn = $this->generate_sn();
         } else {
@@ -111,7 +113,8 @@ class ProductDAO extends BaseDAO {
             'add_time' => time(),
             'unit' => $unit,
             'station_id' => intval($station_id),
-            'sort' => intval($sort)
+            'sort' => intval($sort),
+            'brand_id' => intval($brand_id)
         );
 
         return $this->db->auto_insert($this->__name, array($data));
@@ -164,6 +167,7 @@ class ProductDAO extends BaseDAO {
             $this->unit = isset($row['unit']) ? $row['unit'] : null;
             $this->station_id = isset($row['station_id']) ? $row['station_id'] : null;
             $this->sort = isset($row['sort']) ? $row['sort'] : null;
+            $this->brand_id = isset($row['brand_id']) ? $row['brand_id'] : null;
 
             return true;
         } else {
@@ -189,7 +193,8 @@ class ProductDAO extends BaseDAO {
             `desc` text comment \'商品摘要\',
             `add_time` int not null comment \'添加时间\',
             `unit` varchar(255) not null comment \'单位\',
-            `sort` int not null default \'50\' comment \'排序\'
+            `sort` int not null default \'50\' comment \'排序\',
+            `brand_id` int not null default \'0\' comment \'产品品牌\'
         ) engine=InnoDB,default charset='.DB_CHARSET.';';
 
         return $this->db->query($create_table);

@@ -57,6 +57,15 @@ $menus = array(
     ),
 
     array(
+        'purview_prefix' => 'section_',
+        'group' => '品牌管理',
+        'sub_menus' => array(
+            array('title'=>'品牌列表', 'url'=>'brand.php', 'purview'=>'list', 'display'=>true),
+            array('title'=>'新增品牌', 'url'=>'brand.php?act=add', 'purview'=>'add', 'display'=>true),
+        )
+    ),
+
+    array(
         'purview_prefix' => 'category_',
         'group' => '商品分类',
         'sub_menus' => array(

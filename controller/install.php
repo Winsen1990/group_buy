@@ -154,13 +154,29 @@ $sql[] = 'create table if not exists '.$db->table('category').' (
     `sort` int not null default \'50\' comment \'排序\'
 ) engine=InnoDB,default charset='.DB_CHARSET.';';
 
+$table[] = '品牌信息';
+$sql[] = 'create table if not exists ' . $db->table('brand').' (
+    `id` bigint not null auto_increment primary key,
+    `name` varchar(255) not null comment \'品牌名称\',
+    `station_id` bigint(20) NOT NULL COMMENT \'站点ID\',
+    `keywords` varchar(255) DEFAULT NULL COMMENT \'品牌关键词\',
+    `desc` varchar(255) DEFAULT NULL COMMENT \'品牌简介\',
+    `content` text COMMENT \'品牌详细介绍\',
+    `wap_content` text COMMENT \'手机品牌详细介绍\',
+    `logo` varchar(255) DEFAULT NULL COMMENT \'品牌LOGO\',
+    `sort` int(11) NOT NULL DEFAULT \'50\' COMMENT \'排序\',
+    `status` int(11) NOT NULL DEFAULT \'1\' COMMENT \'状态\',
+    `add_time` int(11) NOT NULL COMMENT \'创建时间\',
+    `last_modify` timestamp NOT NULL COMMENT \'修改时间\'
+) engine=InnoDB,default charset='.DB_CHARSET.';';
+
 $table[] = '系统参数';
 $sql[] = 'create table if not exists '.$db->table('sysconf'). ' (
     `key` varchar(255) not null primary key comment \'参数标识\',
     `title` varchar(255) not null comment \'参数名\',
     `type` varchar(255) not null comment \'参数类型\',
     `group` varchar(255) not null comment \'参数组\',
-    `value` varchar(255) comment \'参数值\'
+    `value` varchar(255) comment \'参数值\',
     `remark` varchar(255) comment \'备注\'
 ) engine=InnoDB,default charset='.DB_CHARSET.';';
 

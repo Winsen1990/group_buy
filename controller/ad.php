@@ -50,7 +50,8 @@ if( 'add' == $opera ) {
             'url' => $url,
             'img' => $img,
             'sort' => $sort,
-            'ad_pos_id' => $ad_pos_id
+            'ad_pos_id' => $ad_pos_id,
+            'add_time' => time()
         );
         if ($db->auto_insert('ad', array($ad_data))) {
             $ajax_response['error'] = 0;
