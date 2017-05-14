@@ -23,6 +23,17 @@
         <dt>零售价:</dt>
         <dd class="sf-product-price">{sprintf('￥%.2f', $product.price)}</dd>
     </dl>
+
+    {if $product.brand_id}
+    <dl class="sf-product-attribute">
+        <dt>产品品牌:</dt>
+        <dd>
+            <a href="brand.php?id={$product.brand_id|intval}">
+                {$product.brand_name|escape}
+            </a>
+        </dd>
+    </dl>
+    {/if}
 </section>
 
 <section class="sf-block">
