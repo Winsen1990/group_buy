@@ -338,6 +338,7 @@ button {
   background: #f5f5f5;
   font-size: .8rem;
   text-align: left;
+  line-height: 3.6rem;
 }
 .sf-block .sf-block-content-style-3 .sf-product-item p.sf-product-price {
   color: #ff0000;
