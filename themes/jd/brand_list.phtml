@@ -12,7 +12,7 @@
             <a href="brand.php?id={$brand.id}">
                 <img src="{$brand.logo}" alt="{$brand.name|escape}" class="sf-product-image"/>
                 <p>{$brand.name|escape}</p>
-                <p class="sf-product-desc">{$brand.desc|escape}</p>
+                <p class="sf-product-desc">{$brand.desc|escape|truncate:12:'...'}</p>
             </a>
         </div>
         {if $brand@iteration mod 3 eq 0}
