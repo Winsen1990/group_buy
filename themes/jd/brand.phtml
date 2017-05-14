@@ -1,0 +1,53 @@
+{extends file='index.phtml'}
+{block name='content'}
+<section class="sf-block">
+    <h2 class="sf-block-title">
+        {$brand.name|escape}
+    </h2>
+
+    <div class="sf-brand-info">
+        <img src="{$brand.logo}" alt="{$brand.name|escape}" class="sf-brand-logo"/>
+        <div class="sf-brand-desc">
+            <p>品牌详情:</p>
+            {$brand.content}
+        </div>
+    </div>
+</section>
+
+<section class="sf-block">
+    <h2 class="sf-block-title">
+        品牌产品
+    </h2>
+
+    <div class="sf-block-content-style-3 {if !$product_list}empty{/if}">
+        {if $product_list}
+        {foreach $product_list as $product}
+        <div class="sf-product-item">
+            <a href="product.php?id={$product.id}">
+                <img src="{$product.thumb}" alt="{$product.name|escape}" class="sf-product-image"/>
+                <p>{$product.name|escape}</p>
+                <p class="sf-product-desc">{$product.desc|escape}</p>
+            </a>
+        </div>
+        {if $product@iteration mod 3 eq 0}
+        <div class="clearfix"></div>
+        {/if}
+        {/foreach}
+        {else}
+        没有产品了
+        {/if}
+    </div>
+</section>
+{/block}
+
+{block name="script"}
+<script type="text/javascript">
+    $(function () {
+        $('.sf-brand-desc').find('img').each(function() {
+            $(this).prop('width', 'auto');
+            $(this).prop('height', 'auto');
+            $(this).css({ width: '100%', height: 'auto' });
+        });
+    });
+</script>
+{/block}

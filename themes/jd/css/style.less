@@ -121,6 +121,25 @@ input[type="submit"],input[type="reset"],input[type="button"],input[type="passwo
   margin-bottom: .5rem;
   background-color: @color_white;
 
+  .sf-brand-info {
+    padding: .8rem;
+    line-height: 1.6rem;
+
+    .sf-brand-logo {
+      float: left;
+      width: 40%;
+    }
+
+    .sf-brand-desc {
+      text-align: left;
+      font-size: 1rem;
+
+      p:first-child {
+        color: @color_green;
+      }
+    }
+  }
+
   .sf-block-title, .sf-block-title-with-arrow {
     background-color: @color_lighter_green;
     color: @color_white;
@@ -261,6 +280,7 @@ input[type="submit"],input[type="reset"],input[type="button"],input[type="passwo
         &.sf-product-desc {
           background: #f5f5f5;
           font-size: .8rem;
+          text-align: left;
         }
 
         &.sf-product-price {
