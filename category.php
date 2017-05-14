@@ -16,7 +16,7 @@ $get_category = 'select `id`,`name` from '.$db->table('category').' where `id`='
 
 $category = $db->fetch_row($get_category);
 
-$get_product_list = 'select `name`,`id`,`price`,`thumb` from '.$db->table('product').' where `status`=1 ';
+$get_product_list = 'select `name`,`id`,`price`,`thumb`,`desc` from '.$db->table('product').' where `status`=1 ';
 
 if(!$category)
 {
