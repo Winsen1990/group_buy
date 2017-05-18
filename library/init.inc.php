@@ -80,7 +80,7 @@ $_P['page'] = array(
     'copyright' => 'Copyright &copy; '.$sysconf_mapping['copyright'],
 );
 
-$nav_list = $db->get_all('nav', array('parent_id' => 0), array(), '`path` ASC,`sort` ASC');
+$nav_list = $db->get_all('nav', array('parent_id' => 0), array(), '`sort` ASC');
 $nav_mapping = array();
 if($nav_list) {
     foreach($nav_list as $nav) {
