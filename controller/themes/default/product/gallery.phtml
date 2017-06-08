@@ -1,0 +1,122 @@
+{extends file='common/template.phtml'}
+{block name='content'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">{$_P['page']['title']}</span>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal" method="post" action="article.php?act=add" onsubmit="return submit_gallery()">
+            <div class="row">
+                <div class="col-xs-3">
+                    <img class="img-thumbnail clearfix" width="300" height="300" src="no_image.php?w=300&h=300" onclick="upload_image(this);"/>
+                    <input type="hidden" name="original"/>
+
+                    <input type="number" class="form-control" name="sort" id="sort" placeholder="请填写排序" value="50"/>
+                    <button class="btn btn-danger delete-btn" data-id="" name="delete">删除</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">&nbsp;</label>
+                <div class="col-md-10">
+                    <button class="btn btn-primary" name="submit" id="submit">提交</button>
+                    <a class="btn btn-default" href="product.php?act=list">返回</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="panel-footer text-right">
+        {$_P['page']['copyright']}
+    </div>
+</div>
+<link rel="stylesheet" href="../plugins/common/kindeditor/themes/default/default.css" />
+<script src="../plugins/common/kindeditor/kindeditor.js"></script>
+<script src="../plugins/common/kindeditor/lang/zh_CN.js"></script>
+<link rel="stylesheet" href="../plugins/common/kindeditor/plugins/code/prettify.css" />
+<script charset="utf-8" src="../plugins/common/kindeditor/plugins/code/prettify.js"></script>
+
+<script type="text/javascript">
+    var editor;
+    KindEditor.ready(function (K) {
+        editor = K.editor({
+            allowFileManager: true
+        });
+    });
+
+    function upload_image(obj) {
+        var value_element = $(obj).parent().find('input[name=original]');
+        console.info($(obj));
+
+        editor.loadPlugin('insertimage', function () {
+            editor.plugin.imageDialog({
+                imageUrl: value_element.val(),
+                clickFn: function (url) {
+                    value_element.val(url);
+                    $(obj).attr('src', url);
+                    editor.hideDialog();
+                }
+            });
+        });
+    }
+
+    function submit_gallery() {
+        var data = {
+            name: $.trim($('#name').val()),
+            category_id: parseInt($('#category_id').val()),
+            unit: $.trim($('#unit').val()),
+            market_price: parseFloat($('#market_price').val()),
+            price: parseFloat($('#price').val()),
+            group_price: parseFloat($('#group_price').val()),
+            group_limit: parseInt($('#group_limit').val()),
+            image: $.trim($('#image').val()),
+            thumb: $.trim($('#thumb').val()),
+            desc: $('#desc').val(),
+            detail: $('#detail').val(),
+            sort: parseInt($('#sort').val()),
+            status: parseInt($('#status').val()),
+            brand_id: parseInt($('#brand_id').val()),
+            opera: 'add'
+        };
+
+        var error_msg = '';
+
+        if(data.name == '') {
+            error_msg += '-请填写商品标题<br/>';
+            $('#name').parent().addClass('has-error');
+        } else {
+            $('#name').parent().removeClass('has-error');
+        }
+
+        if(error_msg == '') {
+            var url = 'product.php';
+
+            $.post(url, data, submit_gallery_success, 'json');
+        } else {
+            layer.alert(error_msg);
+        }
+
+        return false;
+    }
+
+    function submit_gallery_success(response) {
+        if(response.error == 0) {
+            layer.open({
+                shade: [0.5, '#333333'],
+                icon: 1,
+                closeBtn: 0,
+                content: response.message,
+                btn: ['继续编辑', '查看列表'],
+                yes: function(index, layero) {
+                    layer.close(index);
+                    window.location.reload();
+                },
+                cancel: function() {
+                    window.location.href = 'product.php?act=list';
+                }
+            });
+        } else {
+            layer.alert(response.message);
+        }
+    }
+</script>
+{/block}

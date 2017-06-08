@@ -11,7 +11,7 @@ global $plugins_config;
 define('DB_HOST', 'localhost');//数据库服务器
 define('DB_USERNAME', 'root');//数据库用户名
 define('DB_PASSWORD', 'root');//数据库密码
-define('DB_DBNAME', 'jd');//数据库名
+define('DB_DBNAME', 'group_by');//数据库名
 define('DB_PREFIX', 'gb_');//数据库表前缀
 define('DB_CHARSET', 'utf8');//数据库编码
 

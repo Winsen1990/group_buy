@@ -1,0 +1,113 @@
+{extends file='index.phtml'}
+{block name="content"}
+{* 封面 *}
+{if $section.cover}
+<img class="jk-article-section-cover" src="{$section.cover}" alt="{$section.name|escape}"/>
+{/if}
+
+<div class="content">
+    <div class="jk-left-container">
+        {* 二级导航栏 *}
+        <div class="jk-sub-nav">
+            <h2 class="jk-sub-nav-header">
+                <i class="jk-icon-info"></i>
+                {$sub_nav.title|escape}
+            </h2>
+            <ul class="jk-sub-nav-list">
+                {foreach $sub_nav.nav_list as $_nav}
+                <li>
+                    <a href="{$_nav.url}" class="jk-sub-nav-item {if $_nav.active}active{/if}">
+                        <i></i>
+                        {$_nav.title|escape}
+                        <i></i>
+                    </a>
+                </li>
+                {/foreach}
+            </ul>
+        </div>
+
+        <div class="jk-left-qrcode">
+            <img src="{$config.wechat_qrcode}"/>
+            <p>扫描二维码，关注公众号</p>
+        </div>
+    </div>
+
+    {* 主内容界面 *}
+    <div class="jk-right-container">
+        {* 工具栏 *}
+        <div class="jk-tool-bar">
+            <i class="jk-icon-info-white"></i>
+            <ol class="jk-breadcrumb">
+                {foreach $breadcrumb as $location}
+                {if $location@last}
+                <li class="active">{$location.name}</li>
+                {else}
+                <li><a href="{$location.url}">{$location.name}</a></li>
+                {/if}
+                {/foreach}
+            </ol>
+
+            <div class="jk-search-bar">
+                <form method="post" action="search.php" name="search-form" id="search-form" onsubmit="return search_info();">
+                    <select class="jk-search-select" name="type" id="type">
+                        <option value="article">搜资讯</option>
+                        <option value="product">搜产品</option>
+                    </select>
+                    <input type="text" class="jk-search-input" name="keyword" id="keyword" placeholder="请输入关键词"/>
+                    <input type="submit" name="submit" value="搜索" id="search-submit" class="jk-search-btn"/>
+                </form>
+            </div>
+        </div>
+
+        <div class="jk-content-container">
+            {if $article_list}
+            <ul class="jk-article-list-2">
+                {foreach $article_list as $article}
+                <li>
+                    <a href="article.php?id={$article.id}" {if $article@iteration eq 1}class="js-markup-new"{/if}>
+                        {$article.title|escape}
+                        <span class="jk-article-date">{$article.add_time|date_format:'%Y-%m-%d'}</span>
+                    </a>
+                </li>
+                {/foreach}
+            </ul>
+            {else}
+            还没有发布资讯噢～～
+            {/if}
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="script"}
+<script type="text/javascript">
+    $(function () {
+    });
+
+    function search_info() {
+        var form = $('#search-form'),
+            keyword,
+            type;
+
+        if(form.hasClass('active')) {
+            keyword = $('#keyword').val();
+            type = $('#type').val();
+
+            if(keyword === '' || $.trim(keyword) === '') {
+                alert('请输入要搜索的关键词');
+                return false;
+            }
+
+            if(type === '') {
+                alert('请选择要搜索的资讯类型');
+                return false;
+            }
+            return true;
+        }
+
+        form.addClass('active');
+
+        return false;
+    }
+</script>
+{/block}

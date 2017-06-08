@@ -128,8 +128,6 @@ function check_action($needle, $search, $default = '')
 /**
  * 备份数据库
  * @param mixed $tables
- * @param bool $with_struct
- * @param bool $with_drop_table
  * @return string
  * @author winsen
  * @date 2015-07-28
@@ -377,17 +375,6 @@ function curl_http_request($url, $data, $method, $encode = true, $need_header = 
     if($encode && (is_array($data) || is_object($data)))
     {
         $data_fields = http_build_query($data);
-        /*
-        foreach($data as $key=>$value)
-        {
-            if('' != $data_fields)
-            {
-                $data_fields .= '&';
-            }
-
-            $data_fields .= $key.'='.urlencode($value);
-        }
-        */
     } else {
         $data_fields = $data;
     }
@@ -481,4 +468,71 @@ function message($message, $redirect = '', $state = 'warning') {
     $smarty->assign('icon', $icon);
     $smarty->assign('message', $message);
     $smarty->display('common/message.phtml');
+}
+
+function check_in_nav($url) {
+    global $db;
+
+    $pattern = '/^http:\/\/.*/';
+
+    if(!preg_match($pattern, $url)) {
+        $url = 'http://'.$_SERVER['HTTP_HOST'].'/'.$url;
+    }
+
+    $nav = $db->get('nav', array('url' => $url));
+
+    return $nav;
+}
+
+function generate_sub_nav($nav_item) {
+    global $db, $log;
+
+    $current_url = $nav_item['url'];
+    $log->record('current_url='.$current_url);
+    $nav = $nav_item;
+    $_nav = check_in_nav($nav_item['url']);
+
+    if($_nav) {
+        if($_nav['parent_id']) {
+            //平级导航栏
+            $parent_nav = $db->get('nav', array('id' => $_nav['parent_id']));
+            $siblings = $db->get_all('nav', array('parent_id' => $_nav['parent_id']));
+
+            $nav = array(
+                'title' => $parent_nav['title'],
+                'url' => $parent_nav['url'],
+                'nav_list' => array()
+            );
+
+            foreach($siblings as $sibling) {
+                $sub_nav_item = array(
+                    'title' => $sibling['title'],
+                    'url' => $sibling['url'],
+                    'active' => $sibling['url'] == $current_url
+                );
+
+                array_push($nav['nav_list'], $sub_nav_item);
+            }
+        } else {
+            //二级导航栏
+            $children = $db->get_all('nav', array('parent_id' => $_nav['id']));
+
+            $nav['nav_list'] = array();
+
+            if($children) {
+                foreach ($children as $child) {
+                    $sub_nav_item = array(
+                        'title' => $child['title'],
+                        'url' => $child['url'],
+                        'active' => $child['url'] == $current_url
+                    );
+                    array_push($nav['nav_list'], $sub_nav_item);
+                }
+            }
+        }
+    } else {
+        $nav['nav_list'] = array();
+    }
+
+    return $nav;
 }

@@ -12,6 +12,7 @@
     <link href="{$template_path}/css/style.min.css" type="text/css" rel="stylesheet"/>
 </head>
 <body>
+    {block name="header"}
     <div class="header">
         <div class="header-content">
             <img class="jk-site-logo" src="{$config.logo}"/>
@@ -29,16 +30,22 @@
             <div class="jk-middle-nav-bar">
                 {if isset($nav_list.middle)}
                 {foreach $nav_list.middle as $_nav}
-                <a href="{$_nav.url}" class="jk-middle-nav-item {if $_nav@first}active{/if}">{$_nav.title|escape}</a>
+                <a href="{$_nav.url}" class="jk-middle-nav-item {if $_nav.active}active{/if}">{$_nav.title|escape}</a>
                 {/foreach}
                 {/if}
             </div>
         </div>
     </div>
+    {/block}
 
+    {block name="content"}
     <div class="jk-slider-wrapper">
         <div class="jk-slider">
-            <img src="controller/no_image.php?w=1000&h=300"/>
+            {foreach $ad_list as $ad}
+            <a href="{$ad.url}">
+                <img src="{$ad.img}" alt="{$ad.alt|escape}" width="{$ad.width}" height="{$ad.height}"/>
+            </a>
+            {/foreach}
         </div>
 
         <div class="jk-quick-menu">
@@ -128,7 +135,9 @@
             </div>
         </div>
     </div>
+    {/block}
 
+    {block name="common"}
     <div class="content">
         <div class="jk-block-wrapper">
             <h2 class="jk-block-title">
@@ -137,10 +146,19 @@
                 <a href="#" class="jk-block-title-more">更多>></a>
             </h2>
             <div class="jk-brand-list">
+                {foreach $brand_list as $brand}
+                <div class="jk-brand-list-item">
+                    <img src="{$brand.logo}" alt="{$brand.name|escape}" class="jk-brand-list-item-logo"/>
+                    <p class="jk-brand-list-item-name">{$brand.name|escape}</p>
+                    <a href="brand.php?id={$brand.id}" class="jk-brand-list-item-link">查看产品</a>
+                </div>
+                {/foreach}
             </div>
         </div>
     </div>
+    {/block}
 
+    {block name="footer"}
     <div class="footer">
         <div class="footer-content">
             <img src="{$config.wechat_qrcode}" class="jk-footer-qrcode"/>
@@ -165,5 +183,10 @@
             </div>
         </div>
     </div>
+    {/block}
+
+    <script type="text/javascript" src="{$template_path}/js/jquery.min.js"></script>
+    {block name="script"}
+    {/block}
 </body>
 </html>

@@ -80,7 +80,8 @@ $_P['page'] = array(
     'copyright' => 'Copyright &copy; '.$sysconf_mapping['copyright'],
 );
 
-$nav_list = $db->get_all('nav', array('parent_id' => 0), array(), '`sort` ASC');
+$current_url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+$nav_list = $db->get_all('nav', array('parent_id' => 0), array(), '`sort` ASC,`path` ASC');
 $nav_mapping = array();
 if($nav_list) {
     foreach($nav_list as $nav) {
@@ -88,8 +89,18 @@ if($nav_list) {
             $nav_mapping[$nav['position']] = array();
         }
 
+        if($nav['url'] == $current_url) {
+            $nav['active'] = true;
+        } else {
+            $nav['active'] = false;
+        }
+
         $nav_mapping[$nav['position']][] = $nav;
     }
 }
 
 $smarty->assign('nav_list', $nav_mapping);
+
+$brand_list = $db->get_all('brand', array(), array(), '`sort` ASC');
+$smarty->assign('brand_list', $brand_list);
+

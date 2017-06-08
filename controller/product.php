@@ -8,13 +8,18 @@ $productDAO->init();
 
 $template = 'product/';
 
-$action = 'edit|add|list|delete';
-$operation = 'edit|add|delete';
+$action = 'edit|add|list|delete|gallery';
+$operation = 'edit|add|delete|gallery';
 
 $act = check_action($action, getGET('act'), 'list');
 
 $opera = check_action($operation, getPOST('opera'));
 //===========================================================================
+//编辑相册
+if('gallery' == $act) {
+
+}
+
 //添加商品
 if( 'add' == $opera ) {
     $station_id = 1;
@@ -346,6 +351,39 @@ if( 'edit' == $act ) {
     $smarty->assign('breadcrumb', $breadcrumb);
     $smarty->assign('category_list', $category_list);
     $smarty->assign('brand_list', $brand_list);
+}
+
+//相册
+if('gallery' == $act) {
+    $product_sn = getGET('product_sn');
+
+    if($product_sn == '') {
+        message('参数错误');
+    } else {
+        $product_sn = $db->escape($product_sn);
+    }
+
+    $get_product = 'select `product_sn`,`name` from '.$db->table('product').' where `product_sn`=\''.$product_sn.'\'';
+    $product = $db->fetch_row($get_product);
+
+    if(empty($product)) {
+        message('参数错误');
+    } else {
+        $_P['page']['title'] = '编辑相册-'.$product['name'];
+        $get_gallery_list = 'select `id`,`original`,`sort` from '.$db->table('gallery').' where `product_sn`=\''.$product_sn.'\' order by `sort`';
+
+        $gallery_list = $db->fetch_all($get_gallery_list);
+        $smarty->assign('gallery_list', $gallery_list);
+
+        //设置路径导航
+        $breadcrumb = array(
+            array('name' => '首页', 'url' => 'index.php'),
+            array('name' => '商品管理', 'url' => 'product.php'),
+            array('name' => '编辑相册', 'url' => 'product.php?act=gallery&product_sn='.$product_sn)
+        );
+
+        $smarty->assign('breadcrumb', $breadcrumb);
+    }
 }
 
 $smarty->assign('_P', $_P);
