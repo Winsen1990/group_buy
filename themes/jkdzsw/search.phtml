@@ -1,9 +1,5 @@
 {extends file='index.phtml'}
 {block name="content"}
-{* 封面 *}
-{if $section.cover}
-<img class="jk-article-section-cover" src="{$section.cover}" alt="{$section.name|escape}"/>
-{/if}
 
 <div class="content">
     <div class="jk-left-container">
@@ -53,53 +49,56 @@
                         <option value="article">搜资讯</option>
                         <option value="product">搜产品</option>
                     </select>
-                    <input type="text" class="jk-search-input" name="keyword" id="keyword" placeholder="请输入关键词"/>
+                    <input type="text" class="jk-search-input" name="keyword" id="keyword" value="{$keyword|escape}" placeholder="请输入关键词"/>
                     <input type="submit" name="submit" value="搜索" id="search-submit" class="jk-search-btn"/>
                 </form>
             </div>
         </div>
 
         <div class="jk-content-container">
-            {if $article_list}
-            <ul class="jk-article-list-2">
-                {foreach $article_list as $article}
-                <li>
-                    <a href="article.php?id={$article.id}" {if $article.markup eq 'new'}class="js-markup-new"{/if}>
-                        {$article.title|escape}
-                        <span class="jk-article-date">{$article.add_time|date_format:'%Y-%m-%d'}</span>
-                    </a>
-                </li>
-                {/foreach}
-            </ul>
-            {if $page_list}
-            <div class="jk-pagination">
-                {if $current gt 1}
-                <a href="section.php?id={$section.id}&page={$current - 1}" class="jk-page-prev"></a>
-                {else}
-                <span class="jk-page-prev disabled"></span>
-                {/if}
-                <ul>
-                    {foreach $page_list as $page}
+            {if $type eq 'product'}
+            {else}
+                {if $article_list}
+                <ul class="jk-article-list-2">
+                    {foreach $article_list as $article}
                     <li>
-                    {if $page neq '...' and $page neq $current}
-                        <a href="section.php?id={$section.id}&page={$page}" class="jk-page-active">
-                            {$page}
+                        <a href="article.php?id={$article.id}" {if $article.markup eq 'new'}class="js-markup-new"{/if}>
+                            {$article.title|escape}
+                            <span class="jk-article-date">{$article.add_time|date_format:'%Y-%m-%d'}</span>
                         </a>
-                    {else}
-                        <span class="jk-page-negative">{$page}</span>
-                    {/if}
                     </li>
                     {/foreach}
                 </ul>
-                {if $current lt $total_page}
-                <a href="section.php?id={$section.id}&page={$current + 1}" class="jk-page-next"></a>
-                {else}
-                <span class="jk-page-next disabled"></span>
+                {if $page_list}
+                <div class="jk-pagination">
+                    {if $current gt 1}
+                    <a href="search.php?keyword={$keyword|urlencode}&type={$type}&page={$current - 1}" class="jk-page-prev"></a>
+                    {else}
+                    <span class="jk-page-prev disabled"></span>
+                    {/if}
+                    <ul>
+                        {foreach $page_list as $page}
+                        <li>
+                        {if $page neq '...' and $page neq $current}
+                            <a href="search.php?keyword={$keyword|urlencode}&type={$type}&page={$page}" class="jk-page-active">
+                                {$page}
+                            </a>
+                        {else}
+                            <span class="jk-page-negative">{$page}</span>
+                        {/if}
+                        </li>
+                        {/foreach}
+                    </ul>
+                    {if $current lt $total_page}
+                    <a href="search.php?keyword={$keyword|urlencode}&type={$type}&page={$current + 1}" class="jk-page-next"></a>
+                    {else}
+                    <span class="jk-page-next disabled"></span>
+                    {/if}
+                </div>
                 {/if}
-            </div>
-            {/if}
-            {else}
-            还没有发布资讯噢～～
+                {else}
+                还没有发布资讯噢～～
+                {/if}
             {/if}
         </div>
     </div>

@@ -36,12 +36,61 @@ if(!$section)
     $smarty->assign('sub_nav', $sub_nav);
 }
 
-$get_article_list = 'select `title`,`id`,`add_time` from '.$db->table('article').' where `section_id`='.$id.' order by `add_time` desc';
+$page = intval(getGET('page'));
+
+if($page <= 0) {
+    $page = 1;
+}
+
+$step = 10;
+$offset = ($page - 1) * $step;
+
+$get_article_count = 'select count(*) from '.$db->table('article').' where `section_id`='.$id.' and `status`=1';
+$article_count = $db->fetch_one($get_article_count);
+
+$total_page = ceil($article_count/$step);
+
+if($page > $total_page) {
+    $page = $total_page;
+}
+
+$page_list = array();
+
+if($total_page > 10) {
+    $shift_count = $total_page - 10;
+
+    $prev_count = floor($total_page - $shift_count)/2;
+    $tail_count = ceil($total_page - $shift_count)/2;
+
+    $page_list = range(1, $prev_count);
+    array_push($page_list, '...');
+    for($i = $total_page - $tail_count; $i <= $total_page; $i++) {
+        array_push($page_list, $i);
+    }
+} else if ($total_page > 1) {
+    $page_list = range(1, $total_page);
+}
+
+$get_article_list = 'select `title`,`id`,`add_time` from '.$db->table('article').' where `section_id`='.$id.' and `status`=1 order by `add_time` desc limit '.$offset.','.$step;
 
 $article_list = $db->fetch_all($get_article_list);
 
+if($article_list) {
+    $newly = 3600 * 3;
+    foreach($article_list as &$article) {
+        if(time() - $article['add_time'] <= $newly) {
+            $article['markup'] = 'new';
+        } else {
+            $article['markup'] = '';
+        }
+    }
+}
+
 $_P['page']['title'] = $section['name'];
 
+$smarty->assign('current', $page);
+$smarty->assign('total_page', $total_page);
+$smarty->assign('page_list', $page_list);
 $smarty->assign('_P', $_P);
 $smarty->assign('section', $section);
 $smarty->assign('article_list', $article_list);

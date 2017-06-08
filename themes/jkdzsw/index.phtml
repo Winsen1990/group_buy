@@ -103,8 +103,8 @@
                 <div class="jk-article-list">
                 {/if}
                     <dl {if $section@first}class="active"{/if}>
-                        <dt>
-                            {$section.title|escape}
+                        <dt data-cover="{$section.cover}" data-read="{$section.view_count}">
+                            <span>{$section.title|escape}</span>
                             <i class="jk-article-active-icon"></i>
                         </dt>
                         <dd>
@@ -187,6 +187,23 @@
 
     <script type="text/javascript" src="{$template_path}/js/jquery.min.js"></script>
     {block name="script"}
+    <script type="text/javascript">
+        $(function () {
+            $('.jk-article-list dt').hover(function () {
+                $('.jk-article-list dl').removeClass('active');
+                var cover = $('.jk-article-cover>img');
+                var view = $('.jk-article-cover .jk-article-read');
+                var title = $('#article-title');
+
+                var view_count = $(this).attr('data-read');
+                view.html('<i class="jk-article-read-icon"></i>' + view_count);
+                var title_str = $(this).find('span').text();
+                title.text(title_str);
+                cover.attr('src', $(this).attr('data-cover'));
+                $(this).parent().addClass('active');
+            });
+        });
+    </script>
     {/block}
 </body>
 </html>

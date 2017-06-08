@@ -587,6 +587,7 @@ body {
   box-shadow: 0 12px 16px #ededed;
   margin-bottom: 20px;
   padding: 30px;
+  overflow: hidden;
 }
 .content .jk-right-container .jk-content-container .jk-article-title {
   font-size: 18px;
@@ -653,6 +654,55 @@ body {
 .content .jk-right-container .jk-content-container .jk-article-nav a.jk-article-prev:hover,
 .content .jk-right-container .jk-content-container .jk-article-nav a.jk-article-next:hover {
   color: #5bba59;
+}
+.content .jk-right-container .jk-content-container .jk-pagination {
+  display: block;
+  float: right;
+  margin-top: 20px;
+}
+.content .jk-right-container .jk-content-container .jk-pagination .jk-page-prev,
+.content .jk-right-container .jk-content-container .jk-pagination .jk-page-next {
+  background-repeat: no-repeat;
+  background-size: 60%;
+  background-position: center center;
+  background-image: url(../images/prev.png);
+  display: inline-block;
+  float: left;
+  width: 27px;
+  height: 27px;
+  margin-right: 10px;
+}
+.content .jk-right-container .jk-content-container .jk-pagination .jk-page-prev.disabled,
+.content .jk-right-container .jk-content-container .jk-pagination .jk-page-next.disabled {
+  filter: grayscale(100%);
+  filter: gray;
+}
+.content .jk-right-container .jk-content-container .jk-pagination .jk-page-next {
+  background-image: url(../images/next.png);
+  margin-right: 0;
+}
+.content .jk-right-container .jk-content-container .jk-pagination ul {
+  float: left;
+}
+.content .jk-right-container .jk-content-container .jk-pagination ul li {
+  float: left;
+  margin-right: 10px;
+}
+.content .jk-right-container .jk-content-container .jk-pagination ul li .jk-page-active,
+.content .jk-right-container .jk-content-container .jk-pagination ul li .jk-page-negative {
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  background-color: #ffffff;
+  color: #777777;
+  border: 1px solid #dddddd;
+  text-align: center;
+  line-height: 26px;
+}
+.content .jk-right-container .jk-content-container .jk-pagination ul li .jk-page-negative {
+  background-color: #5bba59;
+  color: #ffffff;
+  border-color: #5bba59;
 }
 .content .jk-right-container .jk-article-list-2 li {
   display: block;
