@@ -62,7 +62,7 @@
                 </div>
                 <div class="jk-product-attr">
                     <h2 class="jk-product-name">{$product.name|escape}</h2>
-                    <p class="jk-product-desc">{$product.desc|escape}</p>
+                    <p class="jk-product-desc">{$product.desc|escape|truncate:20:'...'}</p>
                     <p class="jk-product-desc">商品品牌: {$product.brand_name|escape}</p>
                     <p class="jk-product-desc">建议零售价: <span class="jk-product-price">{$product.price}</span></p>
                     <div class="jk-product-button-group">
