@@ -39,6 +39,10 @@ $total_page = 1;
 
 switch($type) {
     case 'product':
+        $get_product_list = 'select `name`,`id`,`price`,`thumb`,`desc` from '.$db->table('product').' where `status`=1 and `name` like \'%'.$keyword.'%\'';
+        $product_list = $db->fetch_all($get_product_list);
+
+        $smarty->assign('product_list', $product_list);
         break;
 
     case 'article':

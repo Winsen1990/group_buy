@@ -9,8 +9,8 @@ include 'library/init.inc.php';
 
 global $db, $smarty;
 
-//获取 最新资讯
-$article_list = $db->get_all('article', array(), '', ' `add_time` DESC limit 10');
+//获取 专家观点
+$article_list = $db->get_all('article', array('section_id' => 5), '', ' `add_time` DESC limit 5');
 
 //获取公司简介
 $company_desc = $db->get('article', array('id' => 1));

@@ -1,10 +1,5 @@
 {extends file='index.phtml'}
 {block name="content"}
-{* 封面 *}
-{if $section.cover}
-<img class="jk-article-section-cover" src="{$section.cover}" alt="{$section.name|escape}"/>
-{/if}
-
 <div class="content">
     <div class="jk-left-container">
         {* 二级导航栏 *}
@@ -60,46 +55,37 @@
         </div>
 
         <div class="jk-content-container">
-            {if $article_list}
-            <ul class="jk-article-list-2">
-                {foreach $article_list as $article}
-                <li>
-                    <a href="article.php?id={$article.id}" {if $article.markup eq 'new'}class="js-markup-new"{/if}>
-                        {$article.title|escape|truncate:26:'...'}
-                        <span class="jk-article-date">{$article.add_time|date_format:'%Y-%m-%d'}</span>
-                    </a>
-                </li>
-                {/foreach}
-            </ul>
-            {if $page_list}
-            <div class="jk-pagination">
-                {if $current gt 1}
-                <a href="section.php?id={$section.id}&page={$current - 1}" class="jk-page-prev"></a>
-                {else}
-                <span class="jk-page-prev disabled"></span>
-                {/if}
-                <ul>
-                    {foreach $page_list as $page}
-                    <li>
-                    {if $page neq '...' and $page neq $current}
-                        <a href="section.php?id={$section.id}&page={$page}" class="jk-page-active">
-                            {$page}
-                        </a>
-                    {else}
-                        <span class="jk-page-negative">{$page}</span>
-                    {/if}
-                    </li>
-                    {/foreach}
-                </ul>
-                {if $current lt $total_page}
-                <a href="section.php?id={$section.id}&page={$current + 1}" class="jk-page-next"></a>
-                {else}
-                <span class="jk-page-next disabled"></span>
-                {/if}
+            <div class="jk-brand-info">
+                <img src="{$brand.logo|escape}" alt="{$brand.name|escape}"/>
+                <div>
+                    <span>品牌介绍: </span><br/>
+                    {$brand.content}
+                </div>
             </div>
-            {/if}
+        </div>
+
+        <h2 class="jk-sub-title">
+            <i class="jk-icon-rectangle"></i>
+            品牌产品
+        </h2>
+        <div class="jk-product-list">
+            {if $product_list}
+                {foreach $product_list as $product}
+                <div class="jk-product-item">
+                    <div class="jk-product-image">
+                        <img src="{$product.thumb}" alt="{$product.name|escape}"/>
+                        <p class="jk-product-name">{$product.name|escape}</p>
+                    </div>
+                    <div class="jk-product-desc">
+                        <p>{$product.desc|escape|truncate:28:'...'}</p>
+                        <a href="product.php?id={$product.id}">
+                            查看详情
+                        </a>
+                    </div>
+                </div>
+                {/foreach}
             {else}
-            还没有发布资讯噢～～
+            还没有发布产品噢～～
             {/if}
         </div>
     </div>

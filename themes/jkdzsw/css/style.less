@@ -404,6 +404,13 @@ body {
   background-size: contain;
 }
 
+.jk-icon-order {
+  display: inline-block;
+  background-image: url(../images/icon_order.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
 .jk-icon-info-white {
   display: inline-block;
   background-image: url(../images/icon_info.png);
@@ -414,6 +421,20 @@ body {
 .jk-icon-view {
   display: inline-block;
   background-image: url(../images/icon_view@active.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.jk-icon-view-gray {
+  display: inline-block;
+  background-image: url(../images/icon_view@gray.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.jk-icon-rectangle {
+  display: inline-block;
+  background-image: url(../images/icon_rectangle.png);
   background-repeat: no-repeat;
   background-size: contain;
 }
@@ -497,6 +518,69 @@ body {
           .jk-brand-list-item-link {
             display: block;
           }
+        }
+      }
+    }
+
+    .jk-article-list-3 {
+      margin-top: 20px;
+      padding-bottom: 20px;
+      overflow: hidden;
+
+      .jk-article-item {
+        float: left;
+        width: 162px;
+        border: 1px solid #f1f1f1;
+        margin-right: 20px;
+        padding: 8px 10px 10px;
+        background-color: #ffffff;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        display: block;
+
+        &:nth-child(5) {
+          margin-right: 0;
+        }
+
+        &:hover {
+          .jk-article-active {
+            background-color: @color_green;
+            width: 40px;
+          }
+        }
+
+        img {
+          width: 162px;
+          height: 162px;
+        }
+
+        .jk-article-link {
+          color: @color_black;
+          font-size: @f_m;
+          line-height: 50px;
+          position: relative;
+          display: block;
+
+          .jk-article-viewer {
+            position: absolute;
+            right: 0;
+            font-size: @f_m;
+            color: #555555;
+
+            i {
+              width: 16px;
+              height: 16px;
+              vertical-align: middle;
+              background-position-y: 1px;
+            }
+          }
+        }
+
+        .jk-article-active {
+          display: block;
+          width: 10px;
+          height: 10px;
+          background-color: @color_gray;
+          margin: 0 auto;
         }
       }
     }
@@ -710,6 +794,7 @@ body {
           height: 22px;
           color: @color_black;
           overflow: hidden;
+          padding: 0 10px 0 0;
 
           .jk-icon-view {
             width: 16px;
@@ -779,7 +864,6 @@ body {
 
           &.disabled {
             filter: grayscale(100%);
-            filter: gray;
           }
         }
 
@@ -812,6 +896,97 @@ body {
               border-color: @color_green;
             }
           }
+        }
+      }
+
+      .jk-brand-info {
+        img {
+          float: left;
+          width: 198px;
+          border: 1px solid #f1f1f1;
+          margin-right: 20px;
+        }
+
+        &>div>span:first-child {
+          color: @color_green;
+        }
+      }
+
+      .jk-product-info {
+        overflow: hidden;
+
+        .jk-product-image {
+          float: left;
+          width: 278px;
+          height: 278px;
+          margin-right: 20px;
+          border: 1px solid #dddddd;
+
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+
+        .jk-product-attr {
+          width: 300px;
+          float: left;
+
+          .jk-product-name {
+            font-size: 34px;
+            margin-bottom: 15px;
+            color: #555555;
+            font-weight: normal;
+          }
+
+          .jk-product-desc {
+            font-size: @f_l;
+            line-height: 20px;
+            margin-bottom: 10px;
+          }
+
+          .jk-product-price {
+            color: @color_green;
+            font-size: 24px;
+          }
+        }
+
+        .jk-product-button-group {
+          display: block;
+          text-align: center;
+
+          .jk-btn-apply, .jk-btn-buy {
+            font-size: @f_m;
+            line-height: 22px;
+            border: 1px solid @color_green;
+            color: @color_green;
+            text-align: center;
+            display: inline-block;
+            padding: 0 8px;
+            border-radius: 12px;
+            margin-right: 15px;
+          }
+
+          .jk-btn-buy {
+            background-color: @color_green;
+            color: @color_white;
+          }
+        }
+      }
+
+      .jk-product-detail {
+        margin-top: 20px;
+
+        .jk-product-detail-title {
+          i {
+            width: 22px;
+            height: 22px;
+          }
+
+          font-size: 22px;
+          margin-bottom: 10px;
+          font-weight: normal;
+          text-align: center;
         }
       }
     }
@@ -1010,11 +1185,84 @@ body {
             background-color: @color_green;
           }
         }
-
-        dd {
-          display: block;
-        }
       }
     }
+  }
+}
+
+.jk-product-list {
+  overflow: hidden;
+  padding-bottom: 30px;
+
+  .jk-product-item {
+    width: 198px;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+    margin: 0 10px 15px 0;
+    padding: 10px 10px 20px;
+    border: 1px solid #f1f1f1;
+    background-color: #ffffff;
+
+    &:nth-child(3n) {
+      margin-right: 0;
+    }
+
+    .jk-product-image {
+      width: 200px;
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+
+      img {
+        width: 100%;
+      }
+
+      p {
+        display: block;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: #ffffff;
+        text-align: center;
+        font-size: @f_l;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        line-height: 34px;
+      }
+    }
+
+    .jk-product-desc {
+      margin-top: 10px;
+      font-size: 14px;
+      line-height: 20px;
+      color: #555555;
+
+      p {
+        height: 40px;
+      }
+
+      a {
+        display: inline-block;
+        text-align: center;
+        border: 1px solid #5bba59;
+        border-radius: 14px;
+        line-height: 28px;
+        font-size: 14px;
+        color: #5bba59;
+        padding: 0 15px;
+        width: 88px;
+        margin: 5px 40px;
+      }
+    }
+  }
+}
+
+.jk-sub-title {
+  font-size: @f_l;
+  font-weight: normal;
+  line-height: 2 * @f_l;
+
+  i {
+    width: @f_l;
+    height: @f_l;
+    line-height: 2 * @f_l;
   }
 }
